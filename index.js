@@ -77,7 +77,7 @@ app.get('/find-user/:phone',(REQ,RES) => {
     })
 })
 
-app.get('/send-request/:username',(REQ,RES) => {
+app.get('/send-request/:phone',(REQ,RES) => {
     User.findAll({
         where: {
             phone:REQ.params.phone
@@ -87,7 +87,7 @@ app.get('/send-request/:username',(REQ,RES) => {
         Fadmin.messaging().sendToDevice(u.message[0].token,{
             notification: {
                 title: "Notification",
-                body: REQ.params.username+" wants to text you!",
+                body: REQ.params.phone+" wants to text you!",
                 sound: "default"
             },
             data:{
