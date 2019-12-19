@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get('/:phone', (REQ,RES) => {
-    TempUser.create({phone:REQ.params.phone, otp: OTP})
+    TempUser.create({phone:REQ.params.phone.split(" ")[1].trim(), otp: OTP})
     .then(u => {
         if(u){
             var unirest = require("unirest");
@@ -25,7 +25,7 @@ app.get('/:phone', (REQ,RES) => {
               "sender_id": "FSTSMS",
               "language": "english",
               "route": "qt",
-              "numbers": REQ.params.phone.split(" ")[1],
+              "numbers": REQ.params.phone.split(" ")[1].trim(),
               "message": "17485",
               "variables": "{#AA#}",
               "variables_values": OTP.toString()
