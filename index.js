@@ -25,7 +25,7 @@ app.get('/:phone', (REQ,RES) => {
               "sender_id": "FSTSMS",
               "language": "english",
               "route": "qt",
-              "numbers": REQ.params.phone,
+              "numbers": REQ.params.phone.split(" ")[1],
               "message": "17485",
               "variables": "{#AA#}",
               "variables_values": OTP.toString()
