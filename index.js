@@ -77,20 +77,27 @@ app.get('/find-user/:phone',(REQ,RES) => {
     })
 })
 
-app.get('/send-request/:token/:username',(REQ,RES) => {
-    Fadmin.messaging().sendToDevice(REQ.params.token,{
-        notification: {
-            title: "Notification",
-            body: REQ.params.username+" wants to text you!",
-            sound: "default"
-        },
-        data:{
-            "sendername":"IBIG",
-            "message":"its a Request Message!"
+app.get('/send-request/:username',(REQ,RES) => {
+    User.findAll({
+        where: {
+            phone:REQ.params.phone
         }
     })
-    .then(u => {
-        RES.sendStatus(200)
+    .then(u=>{
+        Fadmin.messaging().sendToDevice(u.message[0].token,{
+            notification: {
+                title: "Notification",
+                body: REQ.params.username+" wants to text you!",
+                sound: "default"
+            },
+            data:{
+                "sendername":"IBIG",
+                "message":"its a Request Message!"
+            }
+        })
+        .then(u => {
+            RES.sendStatus(200)
+        })
     })
 })
 app.listen('2643')
