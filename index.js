@@ -4,13 +4,20 @@ const app = express()
 const db = require('./config/connection/db')
 const TempUser = require('./models/tuser')
 const User = require('./models/user')
+const Fadmin = require('firebase-admin');
+const Ffunctions = require('firebase-functions')
+const serviceAccount = require("./ibig-play-firebase-adminsdk-5yba6-e8daa651a8.json")
 
-var OTP = Math.floor(100000 + Math.random() * 900000).toString()
+Fadmin.initializeApp({
+    credential: Fadmin.credential.cert(serviceAccount),
+    databaseURL: "https://ibig-play.firebaseio.com"
+    });
 // Body Parser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get('/:phone', (REQ,RES) => {
+    var OTP = Math.floor(100000 + Math.random() * 900000).toString()
     TempUser.create({phone:REQ.params.phone.split(" ")[1].trim(), otp: OTP})
     .then(u => {
         if(u){
@@ -70,6 +77,22 @@ app.get('/find-user/:phone',(REQ,RES) => {
     })
 })
 
+app.get('/send-request/:token/:username',(REQ,RES) => {
+    Fadmin.messaging().sendToDevice(REQ.params.token,{
+        notification: {
+            title: "Notification",
+            body: REQ.params.username+" wants to text you!",
+            sound: "default"
+        },
+        data:{
+            "sendername":"IBIG",
+            "message":"its a Request Message!"
+        }
+    })
+    .then(u => {
+        RES.sendStatus(200)
+    })
+})
 app.listen('2643')
 db.authenticate()
   .then(() => console.log('[Database Connected]'))
