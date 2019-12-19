@@ -1,0 +1,29 @@
+{
+  "name": "MICROSERVICE-IBIG-Play-Registration-and-Login",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sGurkaran/MICROSERVICE-IBIG-Play-Registration-and-Login.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sGurkaran/MICROSERVICE-IBIG-Play-Registration-and-Login/issues"
+  },
+  "homepage": "https://github.com/sGurkaran/MICROSERVICE-IBIG-Play-Registration-and-Login#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2",
+    "pg": "^7.15.0",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.3",
+    "unirest": "^0.6.0"
+  }
+}
