@@ -84,7 +84,7 @@ app.get('/send-request/:phone',(REQ,RES) => {
         }
     })
     .then(u=>{
-        console.log(u)
+        console.log(u.message)
         Fadmin.messaging().sendToDevice(u.user.dataValues.token,{
             notification: {
                 title: "Notification",
