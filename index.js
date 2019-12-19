@@ -80,7 +80,7 @@ app.get('/find-user/:phone',(REQ,RES) => {
 app.get('/send-request/:phone',(REQ,RES) => {
     User.findAll({
         where: {
-            phone:REQ.params.phone
+            phone:REQ.params.phone.split(" ")[1].trim()
         }
     })
     .then(u=>{
