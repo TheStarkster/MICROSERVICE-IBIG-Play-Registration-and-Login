@@ -11,6 +11,9 @@ const User = db.define('user', {
     lname: {
         type: Sequelize.STRING
     },
+    token: {
+        type: Sequelize.STRING
+    },
     // gender: {
     //     type: Sequelize.STRING
     // },
