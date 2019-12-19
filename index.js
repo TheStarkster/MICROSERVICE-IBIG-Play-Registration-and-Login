@@ -80,11 +80,10 @@ app.get('/find-user/:phone',(REQ,RES) => {
 app.get('/send-request/:phone',(REQ,RES) => {
     User.findAll({
         where: {
-            phone:REQ.params.phone.split(" ")[1].trim()
+            phone:REQ.params.phone
         }
     })
     .then(u=>{
-        console.log(u[2].dataValues.token)
         Fadmin.messaging().sendToDevice(u[2].dataValues.token,{
             notification: {
                 title: "Notification",
