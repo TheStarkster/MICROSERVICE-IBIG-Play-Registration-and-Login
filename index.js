@@ -12,7 +12,7 @@ Fadmin.initializeApp({
     credential: Fadmin.credential.cert(serviceAccount),
     databaseURL: "https://ibig-play.firebaseio.com"
     });
-Body Parser
+// Body Parser...
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
