@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get('/:phone', (REQ,RES) => {
-    var OTP = Math.floor(100000 + Math.random() * 900000).toString()
+    var OTP = Math.floor(10000 + Math.random() * 90000).toString()
     TempUser.create({phone:REQ.params.phone.split(" ")[1].trim(), otp: OTP})
     .then(u => {
         if(u){
