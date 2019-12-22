@@ -4,6 +4,7 @@ const app = express()
 const db = require('./config/connection/db')
 const TempUser = require('./models/tuser')
 const User = require('./models/user')
+const Messages = require('./models/messages')
 const Fadmin = require('firebase-admin');
 const Ffunctions = require('firebase-functions')
 const serviceAccount = require("./ibig-play-firebase-adminsdk-5yba6-e8daa651a8.json")
@@ -101,7 +102,7 @@ app.get('/send-request/:receiver/:sender',(REQ,RES) => {
     })
 })
 app.post('/save-message',(REQ,RES) => {
-    User.create({
+    Messages.create({
         message: parseInt(REQ.body.message),
         sender: parseInt(REQ.body.sender),
         receiver: REQ.body.receiver,
@@ -112,7 +113,7 @@ app.post('/save-message',(REQ,RES) => {
     })
 })
 app.get('/get-messages/:of',(REQ,RES) => {
-    User.findAll({
+    Messages.findAll({
         where: {
             receiver: REQ.params.of,
             read: false
