@@ -103,9 +103,9 @@ app.get('/send-request/:receiver/:sender',(REQ,RES) => {
 })
 app.post('/save-message',(REQ,RES) => {
     Messages.create({
-        message: parseInt(REQ.body.message),
+        message: REQ.body.message,
         sender: parseInt(REQ.body.sender),
-        receiver: REQ.body.receiver,
+        receiver: parseInt(REQ.body.receiver),
         read: false
     })
     .then(u=> {
@@ -115,7 +115,7 @@ app.post('/save-message',(REQ,RES) => {
 app.get('/get-messages/:of',(REQ,RES) => {
     Messages.findAll({
         where: {
-            receiver: REQ.params.of,
+            receiver: parseInt(REQ.params.of),
             read: false
         },
         raw:true
