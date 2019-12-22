@@ -81,7 +81,8 @@ app.get('/send-request/:phone',(REQ,RES) => {
     User.findAll({
         where: {
             phone:REQ.params.phone
-        }
+        },
+        raw:true
     })
     .then(u=>{
         console.log(u)
