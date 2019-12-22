@@ -100,6 +100,10 @@ app.get('/send-request/:receiver/:sender',(REQ,RES) => {
         })
     })
 })
+app.post('/save-message',(REQ,RES) => {
+    RES.send(REQ.body)
+})
+
 app.listen('2643')
 db.authenticate()
   .then(() => console.log('[Database Connected]'))
