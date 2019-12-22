@@ -51,10 +51,8 @@ app.get('/:phone', (REQ,RES) => {
 app.get('/register-user/:phone/:token',(REQ,RES) => {
     User.create({phone:REQ.params.phone,token:REQ.params.token})
     .then(u => {
-        console.log(u)
-        RES.send({
-            message:"Created"
-        })
+        console.log(u.user)
+        RES.send(u)
     })
 })
 
