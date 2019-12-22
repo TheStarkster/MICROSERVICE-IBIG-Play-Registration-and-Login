@@ -112,7 +112,7 @@ app.post('/save-message',(REQ,RES) => {
     })
 })
 app.get('/get-messages/:of',(REQ,RES) => {
-    User.getAll({
+    User.findAll({
         where: {
             receiver: REQ.params.of,
             read: false
