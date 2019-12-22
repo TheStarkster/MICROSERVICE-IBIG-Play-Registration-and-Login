@@ -5,7 +5,7 @@ const Message = db.define('messages', {
     sender: {
         type: Sequelize.BIGINT
     },
-    reciver: {
+    receiver: {
         type: Sequelize.BIGINT
     },
     message: {
