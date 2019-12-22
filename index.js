@@ -121,7 +121,7 @@ app.get('/get-messages/:of',(REQ,RES) => {
         raw:true
     })
     .then(u => {
-        res.send(u)
+        RES.send(u)
     })
 })
 
