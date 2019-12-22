@@ -101,7 +101,27 @@ app.get('/send-request/:receiver/:sender',(REQ,RES) => {
     })
 })
 app.post('/save-message',(REQ,RES) => {
-    RES.send(REQ.body)
+    User.create({
+        message: parseInt(REQ.body.message),
+        sender: parseInt(REQ.body.sender),
+        receiver: REQ.body.receiver,
+        read: false
+    })
+    .then(u=> {
+        RES.sendStatus(200)
+    })
+})
+app.get('/get-messages/:of',(REQ,RES) => {
+    User.getAll({
+        where: {
+            receiver: REQ.params.of,
+            read: false
+        },
+        raw:true
+    })
+    .then(u => {
+        console.log(u)
+    })
 })
 
 app.listen('2643')
