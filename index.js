@@ -116,12 +116,27 @@ app.get('/get-messages/:of',(REQ,RES) => {
     Messages.findAll({
         where: {
             receiver: parseInt(REQ.params.of),
-            read: false
+            read: false,
+            received: false
         },
         raw:true
     })
     .then(u => {
-        RES.send(u)
+        RES.send(u[0]["sender"])
+        // Messages.update({
+        //     received: true
+        // },
+        // {
+        //     where: {
+        //         receiver: parseInt(REQ.params.of),
+        //         read: false,
+        //         received: false
+        //     }
+        // }
+        // )
+        // .then(r => {
+        //     RES.send(u)
+        // })
     })
 })
 

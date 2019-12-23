@@ -13,6 +13,9 @@ const Message = db.define('messages', {
     },
     read: {
         type: Sequelize.BOOLEAN
+    },
+    received:{
+        type: Sequelize.BOOLEAN
     }
 })
 
