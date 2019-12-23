@@ -140,17 +140,18 @@ app.get('/get-messages/:of',(REQ,RES) => {
 })
 app.post('/read-message',(REQ,RES) => {
     let ids = REQ.body.message_ids
-    Messages.update({
-        read:true
-    },{
-        where: {
-            id: ids
-        }
-    }).then(u => {
-        if(u){
-            RES.sendStatus(200)
-        }
-    })
+    console.log(REQ.body.ids);
+    // Messages.update({
+    //     read:true
+    // },{
+    //     where: {
+    //         id: ids
+    //     }
+    // }).then(u => {
+    //     if(u){
+    //         RES.sendStatus(200)
+    //     }
+    // })
 })
 
 app.listen('2643')
