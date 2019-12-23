@@ -138,7 +138,7 @@ app.get('/get-messages/:of',(REQ,RES) => {
         })
     })
 })
-app.get('/read-message',(REQ,RES) => {
+app.post('/read-message',(REQ,RES) => {
     let ids = REQ.body.message_ids
     Messages.update({
         read:true
