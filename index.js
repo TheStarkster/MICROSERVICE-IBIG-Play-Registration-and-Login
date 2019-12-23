@@ -122,21 +122,34 @@ app.get('/get-messages/:of',(REQ,RES) => {
         raw:true
     })
     .then(u => {
-        RES.send(u[0]["sender"])
-        // Messages.update({
-        //     received: true
-        // },
-        // {
-        //     where: {
-        //         receiver: parseInt(REQ.params.of),
-        //         read: false,
-        //         received: false
-        //     }
-        // }
-        // )
-        // .then(r => {
-        //     RES.send(u)
-        // })
+        Messages.update({
+            received: true
+        },
+        {
+            where: {
+                receiver: parseInt(REQ.params.of),
+                read: false,
+                received: false
+            }
+        }
+        )
+        .then(r => {
+            RES.send(u)
+        })
+    })
+})
+app.get('/read-message',(REQ,RES) => {
+    let ids = REQ.body.message_ids
+    Messages.update({
+        read:true
+    },{
+        where: {
+            id: ids
+        }
+    }).then(u => {
+        if(u){
+            RES.sendStatus(200)
+        }
     })
 })
 
