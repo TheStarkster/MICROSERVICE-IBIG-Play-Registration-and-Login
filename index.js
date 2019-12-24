@@ -140,8 +140,9 @@ app.get('/get-messages/:of',(REQ,RES) => {
 })
 app.post('/read-message',(REQ,RES) => {
     console.log(REQ.body);
-    let res_ids = JSON.parse(REQ.body.message_ids);
-    console.log(toString(res_ids).replace(/[\[\]']+/g,''));
+    var res_ids = REQ.body.message_ids;
+    res_ids = res_ids.replace(/[\[\]']+/g,'');
+    var ids = res_ids.split(",");
     Messages.update({
         read:true
     },{
