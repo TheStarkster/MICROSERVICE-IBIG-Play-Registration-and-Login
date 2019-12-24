@@ -139,20 +139,20 @@ app.get('/get-messages/:of',(REQ,RES) => {
     })
 })
 app.post('/read-message',(REQ,RES) => {
-    let ids = JSON.parse(REQ.body.message_ids);
-    console.log(typeof(ids));
+    let res_ids = JSON.parse(REQ.body);
     console.log(REQ.body.message_ids);
-    // Messages.update({
-    //     read:true
-    // },{
-    //     where: {
-    //         id: ids
-    //     }
-    // }).then(u => {
-    //     if(u){
-    //         RES.sendStatus(200)
-    //     }
-    // })
+    var ids = Array.from(res_ids);
+    Messages.update({
+        read:true
+    },{
+        where: {
+            id: ids
+        }
+    }).then(u => {
+        if(u){
+            RES.sendStatus(200)
+        }
+    })
 })
 
 app.listen('2643')
