@@ -8,6 +8,9 @@ const RequestModel = db.define('requests', {
     to: {
         type: Sequelize.STRING
     },
+    phone_of_from: {
+        type: Sequelize.STRING
+    },
 })
 
 module.exports = RequestModel

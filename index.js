@@ -100,7 +100,8 @@ app.get('/send-request/:receiver_id/:sender_id/:senderphone', (REQ, RES) => {
                 })
                 RequestModal.create({
                     to: parseInt(REQ.params.receiver_id),
-                    from: parseInt(REQ.params.sender_id) 
+                    from: parseInt(REQ.params.sender_id),
+                    phone_of_from: REQ.params.senderphone
                 })
         })
 })
