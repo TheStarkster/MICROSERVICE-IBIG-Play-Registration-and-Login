@@ -201,12 +201,18 @@ app.get('/accept-request/:id', (REQ, RES) => {
             id: REQ.params.id
         }
     })
+    .then(u => {
+        RES.sendStatus(200)
+    })
 })
 app.get('/reject-request/:id', (REQ, RES) => {
     RequestModal.destroy({
         where: {
             id: REQ.params.id
         }
+    })
+    .then(u => {
+        RES.sendStatus(200)
     })
 })
 
