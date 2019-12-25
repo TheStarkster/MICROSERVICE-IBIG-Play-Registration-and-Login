@@ -103,7 +103,8 @@ app.get('/send-request/:receiver/:sender', (REQ, RES) => {
 })
 app.post('/save-message', (REQ, RES) => {
     console.log(REQ.body)
-    var res = JSON.parse(REQ.body);
+    console.log(JSON.stringify(REQ.body));
+    var res = JSON.parse(JSON.stringify(REQ.body));
     console.log(res);
     if (JSON.parse(REQ.body) == null) {
         Messages.create({
