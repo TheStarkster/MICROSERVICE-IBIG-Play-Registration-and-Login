@@ -106,7 +106,7 @@ app.post('/save-message', (REQ, RES) => {
     console.log(JSON.stringify(REQ.body));
     var res = JSON.parse(JSON.stringify(REQ.body));
     console.log(res);
-    console.log(res.code);
+    console.log(res["code"]);
     if (JSON.parse(REQ.body) == null) {
         Messages.create({
             message: JSON.parse(REQ.body).message,
