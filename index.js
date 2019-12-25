@@ -105,9 +105,9 @@ app.get('/send-request/:receiver_id/:sender_id/:senderphone', (REQ, RES) => {
                 })
         })
 })
-app.post('/save-message', (REQ, RES) => {
+app.post('/save-message',async (REQ, RES) =>  {
     console.log("REQ.body");
-    console.log(JSON.parse(REQ.body.data))
+    await console.log(JSON.parse(REQ.body.data))
     console.log("REQ.body");
 
     Messages.create({
