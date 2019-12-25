@@ -102,12 +102,13 @@ app.get('/send-request/:receiver/:sender', (REQ, RES) => {
         })
 })
 app.post('/save-message', (REQ, RES) => {
-
+    var res = JSON.parse(REQ.body);
+    console.log(res);
     if (JSON.parse(REQ.body) == null) {
         Messages.create({
             message: JSON.parse(REQ.body).message,
             sender: parseInt(JSON.parse(REQ.body).sender),
-            receiver: parseInt(JSON.parse(REQ.body0).receiver_id),
+            receiver: parseInt(JSON.parse(REQ.body).receiver_id),
             read: false
         })
             .then(u => {
