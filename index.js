@@ -113,6 +113,7 @@ app.post('/save-message', (REQ, RES) => {
                 RES.sendStatus(200)
             })
     } else {
+        console.log(REQ.body)
         RequestModal.create({
             from :parseInt(REQ.body.sender),
             to: parseInt(REQ.body.receiver_id),
