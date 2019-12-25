@@ -76,19 +76,18 @@ app.get('/find-user/:phone', (REQ, RES) => {
         })
 })
 
-app.get('/send-request/:receiver/:sender', (REQ, RES) => {
+app.get('/send-request/:receiver_id/:sender_id/:senderphone', (REQ, RES) => {
     User.findAll({
         where: {
-            phone: REQ.params.receiver
+            id: parseInt(REQ.params.receiver_id)
         },
         raw: true
     })
         .then(u => {
-            console.log(u)
             Fadmin.messaging().sendToDevice(u[0].token, {
                 notification: {
                     title: "Notification",
-                    body: REQ.params.sender + " wants to text you!",
+                    body: REQ.params.senderphone + " wants to text you!",
                     sound: "default"
                 },
                 data: {
@@ -96,33 +95,47 @@ app.get('/send-request/:receiver/:sender', (REQ, RES) => {
                     "message": "its a Request Message!"
                 }
             })
-                .then(u => {
+                .then(r => {
                     RES.sendStatus(200)
+                })
+                RequestModal.create({
+                    to: parseInt(REQ.params.receiver_id),
+                    from: parseInt(REQ.params.sender_id) 
                 })
         })
 })
 app.post('/save-message', (REQ, RES) => {
     console.log(REQ.body)
     var res = JSON.parse(REQ.body.data);
-    if (res.code == null) {
-        Messages.create({
-            message: res.message,
-            sender: parseInt(res.sender),
-            receiver: parseInt(res.receiver_id),
-            read: false
+    Messages.create({
+        message: res.message,
+        sender: parseInt(res.sender),
+        receiver: parseInt(res.receiver_id),
+        read: false
+    })
+    .then(u => {
+        RES.sendStatus(200)
+    })
+    User.findAll({
+        where: {
+            id: res.receiver_id
+        }
+    })
+    .then(r => {
+        console.log("this is R")
+        console.log(r)
+        Fadmin.messaging().sendToDevice(r[0].token, {
+            notification: {
+                title: "Notification",
+                body: res.message,
+                sound: "default"
+            },
+            data: {
+                "sendername": "IBIG",
+                "message": "Request Accepted"
+            }
         })
-            .then(u => {
-                RES.sendStatus(200)
-            })
-    } else {
-        RequestModal.create({
-            from : parseInt(res.sender),
-            to: parseInt(res.receiver_id),
-        }).then(u => {
-            RES.send(u);
-        })
-    }
-
+    })
 })
 app.get('/get-messages/:of', (REQ, RES) => {
     Messages.findAll({
@@ -148,6 +161,17 @@ app.get('/get-messages/:of', (REQ, RES) => {
                 .then(r => {
                     RES.send(u)
                 })
+        })
+})
+app.get('/get-requests/:user_id', (REQ, RES) => {
+    RequestModal.findAll({
+        where: {
+            to: parseInt(REQ.params.user_id),
+        },
+        raw: true
+    })
+        .then(u => {
+            RES.send(u)
         })
 })
 app.post('/read-message', (REQ, RES) => {
