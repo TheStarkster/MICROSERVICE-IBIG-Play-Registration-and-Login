@@ -106,7 +106,6 @@ app.get('/send-request/:receiver_id/:sender_id/:senderphone', (REQ, RES) => {
         })
 })
 app.post('/save-message', (REQ, RES) => {
-    console.log(REQ.body)
     var res = JSON.parse(REQ.body.data);
     Messages.create({
         message: res.message,
@@ -115,7 +114,7 @@ app.post('/save-message', (REQ, RES) => {
         read: false
     })
     .then(u => {
-        RES.sendStatus(200)
+        RES.send(u)
     })
     User.findAll({
         where: {
@@ -123,8 +122,6 @@ app.post('/save-message', (REQ, RES) => {
         }
     })
     .then(r => {
-        console.log("this is R")
-        console.log(r)
         Fadmin.messaging().sendToDevice(r[0].token, {
             notification: {
                 title: "Notification",
