@@ -139,7 +139,7 @@ app.post('/save-message', (REQ, RES) => {
     //     })
     // })
     }
-    RES.send(200)
+    RES.sendStatus(200)
 })
 app.get('/get-messages/:of', (REQ, RES) => {
     Messages.findAll({
