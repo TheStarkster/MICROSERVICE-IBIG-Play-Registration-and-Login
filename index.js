@@ -103,6 +103,8 @@ app.get('/send-request/:receiver/:sender', (REQ, RES) => {
 })
 app.post('/save-message', (REQ, RES) => {
     if (REQ.body.code == null) {
+        console.log("if")
+        console.log(REQ.body)
         Messages.create({
             message: REQ.body.message,
             sender: parseInt(REQ.body.sender),
@@ -113,6 +115,7 @@ app.post('/save-message', (REQ, RES) => {
                 RES.sendStatus(200)
             })
     } else {
+        console.log("else")
         console.log(REQ.body)
         RequestModal.create({
             from :parseInt(REQ.body.sender),
