@@ -107,7 +107,7 @@ app.post('/save-message', (REQ, RES) => {
         Messages.create({
             message: JSON.parse(REQ.body.message),
             sender: parseInt(JSON.parse(REQ.body.sender)),
-            receiver: ,
+            receiver: parseInt(JSON.parse(REQ.body.receiver_id)),
             read: false
         })
             .then(u => {
