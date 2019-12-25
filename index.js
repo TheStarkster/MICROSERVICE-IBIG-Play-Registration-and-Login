@@ -103,11 +103,11 @@ app.get('/send-request/:receiver/:sender', (REQ, RES) => {
 })
 app.post('/save-message', (REQ, RES) => {
 
-    if (JSON.parse(REQ.body.code) == null) {
+    if (JSON.parse(REQ.body) == null) {
         Messages.create({
-            message: JSON.parse(REQ.body.message),
-            sender: parseInt(JSON.parse(REQ.body.sender)),
-            receiver: parseInt(JSON.parse(REQ.body.receiver_id)),
+            message: JSON.parse(REQ.body).message,
+            sender: parseInt(JSON.parse(REQ.body).sender),
+            receiver: parseInt(JSON.parse(REQ.body0).receiver_id),
             read: false
         })
             .then(u => {
@@ -115,8 +115,8 @@ app.post('/save-message', (REQ, RES) => {
             })
     } else {
         RequestModal.create({
-            from : parseInt(JSON.parse(REQ.body.sender)),
-            to: parseInt(JSON.parse(REQ.body.receiver_id)),
+            from : parseInt(JSON.parse(REQ.body).sender),
+            to: parseInt(JSON.parse(REQ.body).receiver_id),
         }).then(u => {
             RES.send(u);
         })
