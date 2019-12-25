@@ -107,34 +107,35 @@ app.get('/send-request/:receiver_id/:sender_id/:senderphone', (REQ, RES) => {
 })
 app.post('/save-message', (REQ, RES) => {
     console.log(REQ.body)
-    var res = JSON.parse(REQ.body.data);
-    Messages.create({
-        message: res.message,
-        sender: parseInt(res.sender),
-        receiver: parseInt(res.receiver_id),
-        read: false
-    })
-    .then(u => {
-        RES.send(u)
-    })
-    User.findAll({
-        where: {
-            id: res.receiver_id
-        }
-    })
-    .then(r => {
-        Fadmin.messaging().sendToDevice(r[0].token, {
-            notification: {
-                title: "Notification",
-                body: res.message,
-                sound: "default"
-            },
-            data: {
-                "sendername": "IBIG",
-                "message": "Request Accepted"
-            }
-        })
-    })
+    console.log(JSON.parse(REQ.body))
+    // var res = JSON.parse(REQ.body);
+    // Messages.create({
+    //     message: res.message,
+    //     sender: parseInt(res.sender),
+    //     receiver: parseInt(res.receiver_id),
+    //     read: false
+    // })
+    // .then(u => {
+    //     RES.send(u)
+    // })
+    // User.findAll({
+    //     where: {
+    //         id: res.receiver_id
+    //     }
+    // })
+    // .then(r => {
+    //     Fadmin.messaging().sendToDevice(r[0].token, {
+    //         notification: {
+    //             title: "Notification",
+    //             body: res.message,
+    //             sound: "default"
+    //         },
+    //         data: {
+    //             "sendername": "IBIG",
+    //             "message": "Request Accepted"
+    //         }
+    //     })
+    // })
 })
 app.get('/get-messages/:of', (REQ, RES) => {
     Messages.findAll({
