@@ -106,8 +106,16 @@ app.get('/send-request/:receiver_id/:sender_id/:senderphone', (REQ, RES) => {
         })
 })
 app.post('/save-message-online',(REQ,RES) => {
-    console.log(REQ.body.data)
-    RES.sendStatus(200)
+    var res = JSON.parse(REQ.body.data);
+    Messages.create({
+        message: res.message,
+        sender: parseInt(res.sender),
+        receiver: parseInt(res.receiver_id),
+        read: false
+    })
+    .then(u => {
+        RES.send(u)
+    })
 })
 app.post('/save-message', (REQ, RES) => {
     console.log(REQ.body)
