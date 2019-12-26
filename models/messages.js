@@ -5,6 +5,7 @@ const Message = db.define('messages', {
     sender: {
         type: Sequelize.BIGINT
     },
+
     receiver: {
         type: Sequelize.BIGINT
     },
@@ -16,6 +17,9 @@ const Message = db.define('messages', {
     },
     received:{
         type: Sequelize.BOOLEAN
+    },
+    sender_phone: {
+        type: Sequelize.STRING
     }
 })
 

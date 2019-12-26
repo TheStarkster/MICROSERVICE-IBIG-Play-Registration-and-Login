@@ -111,6 +111,7 @@ app.post('/save-message-online',(REQ,RES) => {
         message: res.message,
         sender: parseInt(res.sender),
         receiver: parseInt(res.receiver_id),
+        sender_phone: res.receiver_id,
         read: false
     })
     .then(u => {
