@@ -110,7 +110,7 @@ app.post('/save-message-online',(REQ,RES) => {
     RES.sendStatus(200)
 })
 app.post('/save-message', (REQ, RES) => {
-    console.log(REQ.body)
+    console.log(REQ.body.data)
     console.log(typeof(REQ.body))
     if(REQ.body !== {}){
         console.log(JSON.parse(REQ.body.data))
