@@ -107,6 +107,7 @@ app.get('/send-request/:receiver_id/:sender_id/:senderphone', (REQ, RES) => {
 })
 app.post('/save-message-online',(REQ,RES) => {
     console.log(REQ.body)
+    RES.sendStatus(200)
 })
 app.post('/save-message', (REQ, RES) => {
     console.log(REQ.body)
