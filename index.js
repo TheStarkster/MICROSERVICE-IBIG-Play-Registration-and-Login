@@ -14,7 +14,7 @@ Fadmin.initializeApp({
     databaseURL: "https://ibig-play.firebaseio.com"
 });
 // Body Parser...
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get('/:phone', (REQ, RES) => {
