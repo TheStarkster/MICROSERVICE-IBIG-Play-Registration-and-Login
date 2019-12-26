@@ -122,38 +122,38 @@ app.post('/save-message-online',(REQ,RES) => {
 app.post('/save-message', (REQ, RES) => {
     console.log(REQ.body)
     console.log(typeof(REQ.body))
-    if(REQ.body !== {}){
-        console.log(JSON.parse(REQ.body.data))
-    // var res = JSON.parse(REQ.body);
-    // Messages.create({
-    //     message: res.message,
-    //     sender: parseInt(res.sender),
-    //     receiver: parseInt(res.receiver_id),
-    //     read: false
-    // })
-    // .then(u => {
-    //     RES.send(u)
-    // })
-    // User.findAll({
-    //     where: {
-    //         id: res.receiver_id
-    //     }
-    // })
-    // .then(r => {
-    //     Fadmin.messaging().sendToDevice(r[0].token, {
-    //         notification: {
-    //             title: "Notification",
-    //             body: res.message, 
-    //             sound: "default"
-    //         },
-    //         data: {
-    //             "sendername": "IBIG",
-    //             "message": "Request Accepted"
-    //         }
-    //     })
-    // })
+    var res = JSON.parse(REQ.body.data);
+    if(res.code !== "#<REQUEST>#" || res.code === null){
+        Messages.create({
+            message: res.message,
+            sender: parseInt(res.sender),
+            receiver: parseInt(res.receiver_id),
+            read: false
+        })
+        .then(u => {
+            RES.sendStatus(200)
+        })
+    }else{
+        RES.sendStatus(200)
     }
-    RES.sendStatus(200)
+    User.findAll({
+        where: {
+            id: res.receiver_id
+        }
+    })
+    .then(r => {
+        Fadmin.messaging().sendToDevice(r[0].token, {
+            notification: {
+                title: "Notification",
+                body: res.message, 
+                sound: "default"
+            },
+            data: {
+                "sendername": "IBIG",
+                "message": "Request Accepted"
+            }
+        })
+    })
 })
 app.get('/get-messages/:of', (REQ, RES) => {
     Messages.findAll({
