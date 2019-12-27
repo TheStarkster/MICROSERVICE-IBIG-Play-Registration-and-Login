@@ -72,10 +72,10 @@ app.get('/find-user/:phone/:user_id', (REQ, RES) => {
         User.findAll({
             where: {
                 phone: {
-                    [sequelize.Op.like]: REQ.params.phone+"%"
+                    [sequelize.Op.like]: REQ.params.phone + "%"
                 }
             },
-            raw:true
+            raw: true
         })
             .then(PhoneNumbers => {
                 if (PhoneNumbers.length > 0) {
@@ -83,23 +83,23 @@ app.get('/find-user/:phone/:user_id', (REQ, RES) => {
                         where: {
                             from: parseInt(REQ.params.user_id)
                         },
-                        raw:true
+                        raw: true
                     })
-                    .then(RequestSent => {
-                        console.log(RequestSent)
-                        console.log(PhoneNumbers)
-                        PhoneNumbers.forEach(eachPhone => {
-                            ResObj.push({
-                                phone: eachPhone.phone,
-                                fullname: eachPhone.fname + " " + eachPhone.lname,
-                                token: eachPhone.token,
-                                isRequested: RequestSent.some(eachReq => parseInt(eachReq.to) === parseInt(eachPhone.id)) ? true : false
+                        .then(RequestSent => {
+                            console.log(RequestSent)
+                            console.log(PhoneNumbers)
+                            PhoneNumbers.forEach(eachPhone => {
+                                ResObj.push({
+                                    phone: eachPhone.phone,
+                                    fullname: eachPhone.fname + " " + eachPhone.lname,
+                                    token: eachPhone.token,
+                                    isRequested: RequestSent.some(eachReq => parseInt(eachReq.to) === parseInt(eachPhone.id)) ? true : false
+                                })
+                            });
+                            RES.send({
+                                message: ResObj
                             })
-                        });
-                        RES.send({
-                            message:ResObj
                         })
-                    })
                 } else {
                     RES.send({
                         message: "404"
@@ -113,33 +113,56 @@ app.get('/find-user/:phone/:user_id', (REQ, RES) => {
 
 app.get('/send-request/:receiver_id/:sender_id/:senderphone', (REQ, RES) => {
     try {
-        User.findAll({
+        RequestModal.findAll({
             where: {
-                id: parseInt(REQ.params.receiver_id)
+                to: parseInt(REQ.params.receiver_id),
+                from: parseInt(REQ.params.sender_id),
             },
             raw: true
         })
-            .then(u => {
-                Fadmin.messaging().sendToDevice(u[0].token, {
-                    notification: {
-                        title: "Notification",
-                        body: REQ.params.senderphone + " wants to text you!",
-                        sound: "default"
-                    },
-                    data: {
-                        "sendername": "IBIG",
-                        "message": "its a Request Message!"
-                    }
-                })
-                    .then(r => {
+            .then(output => {
+                if (output.length > 0) {
+                    RequestModal.destroy({
+                        where: {
+                            to: parseInt(REQ.params.receiver_id),
+                            from: parseInt(REQ.params.sender_id),
+                        },
+                        raw: true
+                    })
+                    .them(a => {
                         RES.sendStatus(200)
                     })
-                RequestModal.create({
-                    to: parseInt(REQ.params.receiver_id),
-                    from: parseInt(REQ.params.sender_id),
-                    phone_of_from: REQ.params.senderphone
-                })
+                } else {
+                    User.findAll({
+                        where: {
+                            id: parseInt(REQ.params.receiver_id)
+                        },
+                        raw: true
+                    })
+                        .then(u => {
+                            Fadmin.messaging().sendToDevice(u[0].token, {
+                                notification: {
+                                    title: "Notification",
+                                    body: REQ.params.senderphone + " wants to text you!",
+                                    sound: "default"
+                                },
+                                data: {
+                                    "sendername": "IBIG",
+                                    "message": "its a Request Message!"
+                                }
+                            })
+                                .then(r => {
+                                    RES.sendStatus(200)
+                                })
+                            RequestModal.create({
+                                to: parseInt(REQ.params.receiver_id),
+                                from: parseInt(REQ.params.sender_id),
+                                phone_of_from: REQ.params.senderphone
+                            })
+                        })
+                }
             })
+
     } catch (error) {
         console.log(error)
     }
