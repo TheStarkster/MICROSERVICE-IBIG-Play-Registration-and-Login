@@ -90,6 +90,7 @@ app.get('/find-user/:phone/:user_id', (REQ, RES) => {
                             console.log(PhoneNumbers)
                             PhoneNumbers.forEach(eachPhone => {
                                 ResObj.push({
+                                    id:eachPhone.id,
                                     phone: eachPhone.phone,
                                     fullname: eachPhone.fname + " " + eachPhone.lname,
                                     token: eachPhone.token,
