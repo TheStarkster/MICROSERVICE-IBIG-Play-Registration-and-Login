@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const sequelize = require('sequelize')
 const app = express()
 const db = require('./config/connection/db')
 const TempUser = require('./models/tuser')
@@ -65,17 +66,39 @@ app.get('/register-user/:phone/:token', (REQ, RES) => {
     }
 })
 
-app.get('/find-user/:phone', (REQ, RES) => {
+app.get('/find-user/:phone/:user_id', (REQ, RES) => {
     try {
+        var ResObj = []
         User.findAll({
             where: {
-                phone: REQ.params.phone
-            }
+                phone: {
+                    [sequelize.Op.like]: REQ.params.phone+"%"
+                }
+            },
+            raw:true
         })
-            .then(u => {
-                if (u) {
-                    RES.send({
-                        message: u
+            .then(PhoneNumbers => {
+                if (PhoneNumbers.length > 0) {
+                    RequestModal.findAll({
+                        where: {
+                            from: parseInt(REQ.params.user_id)
+                        },
+                        raw:true
+                    })
+                    .then(RequestSent => {
+                        console.log(RequestSent)
+                        console.log(PhoneNumbers)
+                        PhoneNumbers.forEach(eachPhone => {
+                            ResObj.push({
+                                phone: eachPhone.phone,
+                                fullname: eachPhone.fname + " " + eachPhone.lname,
+                                token: eachPhone.token,
+                                isRequested: RequestSent.some(eachReq => parseInt(eachReq.to) === parseInt(eachPhone.id)) ? true : false
+                            })
+                        });
+                        RES.send({
+                            message:ResObj
+                        })
                     })
                 } else {
                     RES.send({
