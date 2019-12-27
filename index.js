@@ -112,6 +112,7 @@ app.get('/find-user/:phone/:user_id', (REQ, RES) => {
 })
 
 app.get('/send-request/:receiver_id/:sender_id/:senderphone', (REQ, RES) => {
+    console.log(REQ.body);
     try {
         RequestModal.findAll({
             where: {
@@ -129,7 +130,7 @@ app.get('/send-request/:receiver_id/:sender_id/:senderphone', (REQ, RES) => {
                         },
                         raw: true
                     })
-                    .them(a => {
+                    .then(a => {
                         RES.sendStatus(200)
                     })
                 } else {
