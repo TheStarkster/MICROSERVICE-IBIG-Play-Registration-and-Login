@@ -7,7 +7,7 @@ const User = require('./models/user')
 const Messages = require('./models/messages')
 const Fadmin = require('firebase-admin');
 const RequestModal = require('./models/requests')
-const serviceAccount = require("./ibig-play-firebase-adminsdk-5yba6-e8daa651a8.json")
+const serviceAccount = require("./ibig-play-e3f6f-firebase-adminsdk-yrpgu-72d559c009.json")
 
 Fadmin.initializeApp({
     credential: Fadmin.credential.cert(serviceAccount),
