@@ -112,7 +112,7 @@ app.get('/find-user/:phone/:user_id', (REQ, RES) => {
 })
 
 app.get('/send-request/:receiver_id/:sender_id/:senderphone', (REQ, RES) => {
-    console.log(REQ.body);
+    console.log(REQ.params);
     try {
         RequestModal.findAll({
             where: {
