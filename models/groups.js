@@ -8,7 +8,7 @@ const Group = db.define('groups', {
     userid: {
         type: Sequelize.BIGINT
     },
-    isadmin: {
+    isAdmin: {
         type: Sequelize.BOOLEAN
     },
 })
