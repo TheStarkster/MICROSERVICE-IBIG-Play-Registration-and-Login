@@ -331,6 +331,17 @@ app.post('/create-group',(REQ,RES) => {
         RES.sendStatus(200)
     })
 })
+app.post('/add-to-group',(REQ,RES) => {
+    console.log(REQ.body.data)
+    console.log(REQ.body.groupname)
+    JSON.parse(console.log(REQ.body.data))
+    // User.update(
+    //     {groups:sequelize.fn('array_append',sequelize.col('groups'), REQ.body.groupname)},
+    //     {where: {id: REQ.body.creatorid}}
+    //     ).then(u=> {
+    //     RES.sendStatus(200)
+    // })
+})
 
 app.listen('2643')
 db.authenticate()

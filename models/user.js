@@ -14,6 +14,9 @@ const User = db.define('user', {
     token: {
         type: Sequelize.STRING
     },
+    groups: {
+        type: Sequelize.ARRAY(Sequelize.STRING)
+    },
 })
 
 module.exports = User

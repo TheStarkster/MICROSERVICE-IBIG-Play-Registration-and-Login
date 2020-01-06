@@ -8,8 +8,8 @@ const Group = db.define('groups', {
     userid: {
         type: Sequelize.BIGINT
     },
-    isAdmin: {
-        type: Sequelize.BOOLEAN
+    admin: {
+        type:Sequelize.ARRAY(Sequelize.STRING)
     },
 })
 
