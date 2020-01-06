@@ -9,7 +9,7 @@ const Group = db.define('groups', {
         type: Sequelize.BIGINT
     },
     admin: {
-        type:Sequelize.ARRAY(Sequelize.STRING)
+        type:Sequelize.ARRAY(Sequelize.BIGINT)
     },
     numberOfParticipants:{
         type: Sequelize.BIGINT
