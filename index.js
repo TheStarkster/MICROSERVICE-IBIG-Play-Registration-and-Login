@@ -325,7 +325,7 @@ app.post('/create-group', (REQ, RES) => {
     console.log(REQ.body)
     Groups.create({
         groupname: REQ.body.groupName,
-        admin:parseInt(REQ.body.admin),
+        admin:REQ.body.admin,
         numberOfParticipants:parseInt(REQ.body.numberOfParticipants)
     }).then(u => {
         RES.sendStatus(200)
