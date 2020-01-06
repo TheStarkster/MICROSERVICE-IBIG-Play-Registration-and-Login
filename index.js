@@ -324,9 +324,9 @@ app.get('/reject-request/:id', (REQ, RES) => {
 app.post('/create-group', (REQ, RES) => {
     console.log(REQ.body)
     Groups.create({
-        groupname: JSON.parse(REQ.body.groupName),
-        admin: sequelize.fn('array_append',sequelize.col('admin'), parseInt(JSON.parse(REQ.body.admin))),
-        numberOfParticipants:parseInt(JSON.parse(REQ.body.numberOfParticipants))
+        groupname: REQ.body.groupName,
+        admin: sequelize.fn('array_append',sequelize.col('admin'), parseInt(REQ.body.admin)),
+        numberOfParticipants:parseInt(REQ.body.numberOfParticipants)
     }).then(u => {
         RES.sendStatus(200)
     })
