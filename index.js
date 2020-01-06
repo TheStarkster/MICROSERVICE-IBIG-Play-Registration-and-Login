@@ -331,7 +331,7 @@ app.post('/create-group',(REQ,RES) => {
         RES.sendStatus(200)
     })
 })
-app.post('/add-to-group',(REQ,RES) => {
+app.post('/add-to-grou',(REQ,RES) => {
     console.log("REQ.body.data")
     console.log(REQ.body.data)
     console.log("REQ.body.groupname")
