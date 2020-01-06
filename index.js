@@ -330,7 +330,7 @@ app.post('/create-group', (REQ, RES) => {
     }).then(u => {
         User.update(
             { groups: sequelize.fn('array_append', sequelize.col('groups'), REQ.body.groupname) },
-            { where: { id: REQ.body.participants }}
+            { where: { id: JSON.parse(REQ.body.participants) }}
         ).then(a => {
             RES.sendStatus(200)
         })
