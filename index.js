@@ -325,12 +325,11 @@ app.post('/create-group',(REQ,RES) => {
     console.log(REQ.body)
     console.log(REQ.body.data)
     console.log(JSON.parse(REQ.body.data));
-    RES.sendStatus(200)
-    // Groups.bulkCreate(
-    //     JSON.parse(REQ.body.data)
-    // ).then(u=> {
-    //     RES.sendStatus(200)
-    // })
+    Groups.bulkCreate(
+        JSON.parse(REQ.body.data)
+    ).then(u=> {
+        RES.sendStatus(200)
+    })
 })
 
 app.listen('2643')
