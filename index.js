@@ -322,6 +322,9 @@ app.get('/reject-request/:id', (REQ, RES) => {
     }
 })
 app.post('/create-group/',(REQ,RES) => {
+    console.log(REQ.body)
+    console.log(REQ.body.data)
+    console.log(JSON.parse(REQ.body.data));
     Groups.bulkCreate(
         JSON.parse(REQ.body.data)
     ).then(u=> {
