@@ -11,6 +11,9 @@ const Group = db.define('groups', {
     admin: {
         type:Sequelize.ARRAY(Sequelize.STRING)
     },
+    numberOfParticipants:{
+        type: Sequelize.BIGINT
+    }
 })
 
 module.exports = Group

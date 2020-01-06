@@ -91,7 +91,7 @@ app.get('/find-user/:phone/:user_id', (REQ, RES) => {
                             console.log(PhoneNumbers)
                             PhoneNumbers.forEach(eachPhone => {
                                 ResObj.push({
-                                    id:eachPhone.id,
+                                    id: eachPhone.id,
                                     phone: eachPhone.phone,
                                     fullname: eachPhone.fname + " " + eachPhone.lname,
                                     token: eachPhone.token,
@@ -132,9 +132,9 @@ app.get('/send-request/:receiver_id/:sender_id/:senderphone', (REQ, RES) => {
                         },
                         raw: true
                     })
-                    .then(a => {
-                        RES.sendStatus(200)
-                    })
+                        .then(a => {
+                            RES.sendStatus(200)
+                        })
                 } else {
                     User.findAll({
                         where: {
@@ -321,17 +321,19 @@ app.get('/reject-request/:id', (REQ, RES) => {
         console.log(error)
     }
 })
-app.post('/create-group',(REQ,RES) => {
+app.post('/create-group', (REQ, RES) => {
     console.log(REQ.body)
     console.log(REQ.body.data)
     console.log(JSON.parse(REQ.body.data));
-    Groups.bulkCreate(
-        JSON.parse(REQ.body.data)
-    ).then(u=> {
+    Groups.create({
+        groupname: JSON.parse(REQ.body.groupname),
+        admin: sequelize.fn('array_append',sequelize.col('admin'), JSON.parse(REQ.body.admin)),
+        numberOfParticipants:JSON.parse(REQ.body.numberOfParticipants) 
+    }).then(u => {
         RES.sendStatus(200)
     })
 })
-app.post('/add-to-grou',(REQ,RES) => {
+app.post('/add-to-group', (REQ, RES) => {
     console.log("REQ.body.data")
     console.log(REQ.body.data)
     console.log("REQ.body.groupname")
