@@ -14,9 +14,6 @@ const User = db.define('user', {
     token: {
         type: Sequelize.STRING
     },
-    // gender: {
-    //     type: Sequelize.STRING
-    // },
 })
 
 module.exports = User

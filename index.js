@@ -8,6 +8,7 @@ const User = require('./models/user')
 const Messages = require('./models/messages')
 const Fadmin = require('firebase-admin');
 const RequestModal = require('./models/requests')
+const Groups = require('./models/groups')
 const serviceAccount = require("./ibig-play-e3f6f-firebase-adminsdk-yrpgu-72d559c009.json")
 
 Fadmin.initializeApp({
@@ -257,6 +258,7 @@ app.get('/get-messages/:of', (REQ, RES) => {
 })
 app.get('/get-requests/:user_id', (REQ, RES) => {
     try {
+        var ResObj = []
         RequestModal.findAll({
             where: {
                 to: parseInt(REQ.params.user_id),
@@ -318,6 +320,13 @@ app.get('/reject-request/:id', (REQ, RES) => {
     } catch (error) {
         console.log(error)
     }
+})
+app.post('/create-group/',(REQ,RES) => {
+    Groups.bulkCreate(
+        JSON.parse(REQ.body.data)
+    ).then(u=> {
+        RES.sendStatus(200)
+    })
 })
 
 app.listen('2643')
