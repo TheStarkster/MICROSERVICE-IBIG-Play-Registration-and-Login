@@ -2,8 +2,8 @@ const Sequelize = require('sequelize');
 const db = require('../config/connection/db');
 
 const Group = db.define('groups', {
-    groupid: {
-        type: Sequelize.BIGINT
+    groupname: {
+        type: Sequelize.STRING
     },
     userid: {
         type: Sequelize.BIGINT
