@@ -325,10 +325,15 @@ app.post('/create-group', (REQ, RES) => {
     console.log(REQ.body)
     Groups.create({
         groupname: REQ.body.groupName,
-        admin:[parseInt(REQ.body.admin)],
-        numberOfParticipants:parseInt(REQ.body.numberOfParticipants)
+        admin: [parseInt(REQ.body.admin)],
+        numberOfParticipants: parseInt(REQ.body.numberOfParticipants)
     }).then(u => {
-        RES.sendStatus(200)
+        User.update(
+            { groups: sequelize.fn('array_append', sequelize.col('groups'), REQ.body.groupname) },
+            { where: { id: REQ.body.participants }}
+        ).then(a => {
+            RES.sendStatus(200)
+        })
     })
 })
 app.post('/add-to-group', (REQ, RES) => {
