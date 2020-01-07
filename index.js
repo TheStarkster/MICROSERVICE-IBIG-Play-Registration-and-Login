@@ -328,28 +328,23 @@ app.post('/create-group', (REQ, RES) => {
         admin: [parseInt(REQ.body.admin)],
         numberOfParticipants: parseInt(REQ.body.numberOfParticipants)
     }).then(u => {
-        console.log(u)
-        console.log(u.dataValues.id)
         User.update(
-            { groups: sequelize.fn('array_append', sequelize.col('groups'), u.dataValues.id)},
+            { groups: sequelize.fn('array_append', sequelize.col('groups'),u.dataValues.id.toString() )},
             { where: { id: JSON.parse(REQ.body.participants)}}
         ).then(a => {
-            RES.sendStatus(JSON.stringify({
-                message: {
-                    id: u.dataValues.id
-                }
-            }))
+            RES.send({
+                message:a
+            })
         })
     })
 })
 app.post('/add-to-group', (REQ, RES) => {
-    console.log("REQ.body.data")
-    console.log(REQ.body.data)
-    console.log("REQ.body.groupname")
-    console.log(REQ.body.groupname)
-    // JSON.parse(console.log(REQ.body.data))
+    // console.log("REQ.body.data")
+    // console.log(REQ.body.data)
+    // console.log("REQ.body.groupname")
+    // console.log(REQ.body.groupname)
     // User.update(
-    //     {groups:sequelize.fn('array_append',sequelize.col('groups'), REQ.body.groupname)},
+    //     {groups:sequelize.fn('array_append',sequelize.col('groups'), 22)},
     //     {where: {id: REQ.body.creatorid}}
     //     ).then(u=> {
     //     RES.sendStatus(200)
