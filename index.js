@@ -332,9 +332,9 @@ app.post('/create-group', (REQ, RES) => {
             { groups: sequelize.fn('array_append', sequelize.col('groups'),u.dataValues.id.toString() )},
             { where: { id: JSON.parse(REQ.body.participants)}}
         ).then(a => {
-            RES.send({
+            RES.send(JSON.stringify({
                 message:a
-            })
+            }))
         })
     })
 })
