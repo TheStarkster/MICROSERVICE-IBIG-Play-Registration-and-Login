@@ -328,6 +328,8 @@ app.post('/create-group', (REQ, RES) => {
         admin: [parseInt(REQ.body.admin)],
         numberOfParticipants: parseInt(REQ.body.numberOfParticipants)
     }).then(u => {
+        console.log(u)
+        console.log(u.dataValues.id)
         User.update(
             { groups: sequelize.fn('array_append', sequelize.col('groups'), u.dataValues.id) },
             { where: { id: JSON.parse(REQ.body.participants) } }
