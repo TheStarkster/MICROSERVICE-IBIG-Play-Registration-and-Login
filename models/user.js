@@ -15,7 +15,7 @@ const User = db.define('user', {
         type: Sequelize.STRING
     },
     groups: {
-        type: Sequelize.ARRAY(Sequelize.BIGINT)
+        type: Sequelize.ARRAY(Sequelize.SMALLINT)
     },
 })
 
