@@ -323,7 +323,7 @@ app.get('/reject-request/:id', (REQ, RES) => {
 })
 app.post('/create-group', (REQ, RES) => {
     console.log(REQ.body)
-
+    console.log(typeof(REQ.body.admin))
     Groups.create({ 
         groupname: REQ.body.groupName,
         admin: REQ.body.admin,
