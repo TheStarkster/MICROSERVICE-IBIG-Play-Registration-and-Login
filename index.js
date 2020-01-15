@@ -323,12 +323,10 @@ app.get('/reject-request/:id', (REQ, RES) => {
 })
 app.post('/create-group', (REQ, RES) => {
     console.log(REQ.body)
-    console.log(REQ.body.admin);
-    console.log(parseInt(REQ.body.admin));
-    console.log([parseInt(REQ.body.admin)]);
+
     Groups.create({ 
         groupname: REQ.body.groupName,
-        admin: [parseInt(REQ.body.admin)],
+        admin: REQ.body.admin,
         numberOfParticipants: parseInt(REQ.body.numberOfParticipants)
     }).then(u => {
         var a = u;
