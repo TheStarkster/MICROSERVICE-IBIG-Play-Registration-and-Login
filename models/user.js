@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const db = require('../config/connection/db');
-
 const User = db.define('user', {
     phone: {
         type: Sequelize.STRING
