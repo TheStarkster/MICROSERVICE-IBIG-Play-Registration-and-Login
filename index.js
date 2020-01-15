@@ -323,11 +323,16 @@ app.get('/reject-request/:id', (REQ, RES) => {
 })
 app.post('/create-group', (REQ, RES) => {
     console.log(REQ.body)
+    console.log(parseInt(REQ.body.admin));
+    console.log([parseInt(REQ.body.admin)]);
     Groups.create({ 
         groupname: REQ.body.groupName,
         admin: [parseInt(REQ.body.admin)],
         numberOfParticipants: parseInt(REQ.body.numberOfParticipants)
     }).then(u => {
+        var a = u;
+        console.log(a)
+        console.log(u.dataValues.id.toString());
         User.update(
             { groups: sequelize.fn('array_append', sequelize.col('groups'),u.dataValues.id.toString() )},
             { where: { id: JSON.parse(REQ.body.participants)}}
