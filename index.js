@@ -343,7 +343,7 @@ app.post('/create-group', (REQ, RES) => {
                 id: JSON.parse(REQ.body.participants)
             }
         }).then(a => {
-            console.log(a)
+            console.log(u)
             RES.send(JSON.stringify({
                 message: a
             }))
