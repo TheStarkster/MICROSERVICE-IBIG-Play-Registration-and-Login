@@ -359,9 +359,7 @@ app.post('/save-group-message-online', (REQ, RES) => {
         groupid: res.groupid,
         sentby: res.groupid,
     }).then(u => {
-        RES.send({
-            message: u
-        })
+        RES.send(u.dataValues.id)
     })
 })
 
