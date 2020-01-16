@@ -343,10 +343,7 @@ app.post('/create-group', (REQ, RES) => {
                 id: JSON.parse(REQ.body.participants)
             }
         }).then(a => {
-            console.log(u)
-            RES.send(JSON.stringify({
-                message: a
-            }))
+            RES.send(u.dataValues.id)
         })
     })
 })
@@ -359,7 +356,9 @@ app.post('/save-group-message-online', (REQ, RES) => {
         groupid: res.groupid,
         sentby: res.groupid,
     }).then(u => {
-        RES.send(u.dataValues.id)
+        RES.send({
+            message: u
+        })
     })
 })
 
