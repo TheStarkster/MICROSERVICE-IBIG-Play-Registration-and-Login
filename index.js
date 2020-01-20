@@ -381,10 +381,10 @@ app.post('/send-image-with-captions-to-one-or-more',(REQ,RES) => {
         //         received: true
         //     })
         // });
-        // Messages.bulkCreate(bulk)
-        //     .then(u => {
-        //         RES.send(u)
-        //     })
+        Messages.bulkCreate(res)
+            .then(u => {
+                RES.send(u)
+            })
     } catch (error) {
         console.log(error)
     }
