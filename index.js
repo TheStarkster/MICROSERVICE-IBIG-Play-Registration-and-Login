@@ -18,7 +18,8 @@ Fadmin.initializeApp({
 });
 // Body Parser...
 app.use(bodyParser.urlencoded({
-    extended: true
+    extended: true,
+    limit:'50mb'
 }));
 app.use(bodyParser.json());
 
