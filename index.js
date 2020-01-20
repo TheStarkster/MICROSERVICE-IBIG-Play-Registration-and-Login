@@ -187,6 +187,7 @@ app.post('/save-message-online', (REQ, RES) => {
                 sender: parseInt(res.sender),
                 receiver: parseInt(res.receiver_id),
                 sender_phone: res.receiver_id,
+                image:res.image,
                 read: false,
                 received: true
             })
@@ -205,6 +206,7 @@ app.post('/save-message', (REQ, RES) => {
                     message: res.message,
                     sender: parseInt(res.sender),
                     receiver: parseInt(res.receiver_id),
+                    image:res.image,
                     read: false
                 })
                 .then(u => {
@@ -360,6 +362,32 @@ app.post('/save-group-message-online', (REQ, RES) => {
             message: u
         })
     })
+})
+
+app.post('/send-image-with-captions-to-one-or-more',(REQ,RES) => {
+    try {
+        var res = JSON.parse(REQ.body.data);
+        console.log(res)
+        // var bulk = []
+        // var i = 0
+        // res.receivers.forEach(receiver => {
+        //     bulk.push({
+        //         message: res.message,
+        //         sender: parseInt(res.sender),
+        //         receiver: parseInt(receiver),
+        //         sender_phone: res.receiver_id,
+        //         image:res.image,
+        //         read: false,
+        //         received: true
+        //     })
+        // });
+        // Messages.bulkCreate(bulk)
+        //     .then(u => {
+        //         RES.send(u)
+        //     })
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 app.post('/add-to-group', (REQ, RES) => {

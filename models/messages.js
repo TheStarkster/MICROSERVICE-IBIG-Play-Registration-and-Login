@@ -20,6 +20,9 @@ const Message = db.define('messages', {
     },
     sender_phone: {
         type: Sequelize.STRING
+    },
+    image: {
+        type: Sequelize.STRING
     }
 })
 
