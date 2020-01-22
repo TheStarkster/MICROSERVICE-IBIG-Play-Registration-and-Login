@@ -22,7 +22,6 @@ app.use(bodyParser.urlencoded({
     limit:'50mb'
 }));
 app.use(bodyParser.json());
-
 app.get('/:phone', (REQ, RES) => {
     var OTP = Math.floor(10000 + Math.random() * 90000).toString()
     try {
@@ -381,7 +380,19 @@ app.post('/send-image-with-captions-to-one-or-more',(REQ,RES) => {
         console.log(error)
     }
 })
-
+app.get('/get-image-message/:id',(REQ,RES) => {
+    Messages.findAll({
+        where:{
+            id:REQ.params.id
+        },
+        raw:true
+    })
+    .then(u=> {
+        if(u){
+            RES.send(u)
+        }
+    })
+})
 app.post('/add-to-group', (REQ, RES) => {
     // console.log("REQ.body.data")
     // console.log(REQ.body.data)
