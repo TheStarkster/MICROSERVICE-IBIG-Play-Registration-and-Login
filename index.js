@@ -50,7 +50,6 @@ app.get('/:phone', (REQ, RES) => {
                     });
                     req.end(function (res) {
                         if (res.error) throw new Error(res.error);
-                        console.log(res.body);
                     });
                     RES.send({
                         otp: OTP
@@ -69,7 +68,6 @@ app.get('/register-user/:phone/:token', (REQ, RES) => {
                 token: REQ.params.token
             })
             .then(u => {
-                console.log(u.user)
                 RES.send(u)
             })
     } catch (error) {
@@ -97,8 +95,6 @@ app.get('/find-user/:phone/:user_id', (REQ, RES) => {
                             raw: true
                         })
                         .then(RequestSent => {
-                            console.log(RequestSent)
-                            console.log(PhoneNumbers)
                             PhoneNumbers.forEach(eachPhone => {
                                 ResObj.push({
                                     id: eachPhone.id,
@@ -124,7 +120,6 @@ app.get('/find-user/:phone/:user_id', (REQ, RES) => {
 })
 
 app.get('/send-request/:receiver_id/:sender_id/:senderphone', (REQ, RES) => {
-    console.log(REQ.params);
     try {
         RequestModal.findAll({
                 where: {
@@ -332,8 +327,6 @@ app.get('/reject-request/:id', (REQ, RES) => {
     }
 })
 app.post('/create-group', (REQ, RES) => {
-    console.log(REQ.body)
-    console.log(typeof (JSON.parse(REQ.body.admin)))
     Groups.create({
         groupname: REQ.body.groupName,
         admin: JSON.parse(REQ.body.admin),
@@ -352,7 +345,6 @@ app.post('/create-group', (REQ, RES) => {
 })
 
 app.post('/save-group-message-online', (REQ, RES) => {
-    console.log(REQ.body)
     var res = JSON.parse(REQ.body.data)
     GroupsMessage.create({
         message: res.message,
@@ -368,7 +360,6 @@ app.post('/save-group-message-online', (REQ, RES) => {
 app.post('/send-image-with-captions-to-one-or-more',(REQ,RES) => {
     try {
         var res = JSON.parse(REQ.body.data);
-        console.log(res)
         // var bulk = []
         // var i = 0
         // res.receivers.forEach(receiver => {
