@@ -21,6 +21,10 @@ app.use(bodyParser.urlencoded({
     extended: true,
     limit:'50mb'
 }));
+app.use(bodyParser.json({
+    extended: true,
+    limit:'50mb'
+}));
 app.use(bodyParser.json());
 app.get('/:phone', (REQ, RES) => {
     var OTP = Math.floor(10000 + Math.random() * 90000).toString()
@@ -31,25 +35,25 @@ app.get('/:phone', (REQ, RES) => {
             })
             .then(u => {
                 if (u) {
-                    var unirest = require("unirest");
-                    var req = unirest("POST", "https://www.fast2sms.com/dev/bulk");
-                    req.headers({
-                        "content-type": "application/x-www-form-urlencoded",
-                        "cache-control": "no-cache",
-                        "authorization": "oUvs89JdohAlMAkzdLn7vLiUTzBi0fiHVoD4pJPVQ4X1vM8kw2O6YwYydalr"
-                    });
-                    req.form({
-                        "sender_id": "FSTSMS",
-                        "language": "english",
-                        "route": "qt",
-                        "numbers": REQ.params.phone.split(" ")[1].trim(),
-                        "message": "17485",
-                        "variables": "{#AA#}",
-                        "variables_values": OTP.toString()
-                    });
-                    req.end(function (res) {
-                        if (res.error) throw new Error(res.error);
-                    });
+                    // var unirest = require("unirest");
+                    // var req = unirest("POST", "https://www.fast2sms.com/dev/bulk");
+                    // req.headers({
+                    //     "content-type": "application/x-www-form-urlencoded",
+                    //     "cache-control": "no-cache",
+                    //     "authorization": "oUvs89JdohAlMAkzdLn7vLiUTzBi0fiHVoD4pJPVQ4X1vM8kw2O6YwYydalr"
+                    // });
+                    // req.form({
+                    //     "sender_id": "FSTSMS",
+                    //     "language": "english",
+                    //     "route": "qt",
+                    //     "numbers": REQ.params.phone.split(" ")[1].trim(),
+                    //     "message": "17485",
+                    //     "variables": "{#AA#}",
+                    //     "variables_values": OTP.toString()
+                    // });
+                    // req.end(function (res) {
+                    //     if (res.error) throw new Error(res.error);
+                    // });
                     RES.send({
                         otp: OTP
                     })
@@ -390,6 +394,80 @@ app.get('/get-image-message/:id',(REQ,RES) => {
     .then(u=> {
         if(u){
             RES.send(u)
+        }
+    })
+})
+
+app.post('/change-profile-picture',(REQ,RES) => {
+    var req = JSON.parse(REQ.body.data)
+    require("fs").writeFile("./user_dp/"+req.id+".png", req.dp, {encoding:'base64'}, (err) => console.log(err))
+    User.update({
+        dp:req.id
+    },{
+        where: {id: req.id}
+    })
+    .then(u=> {
+        if(u){
+            RES.sendStatus(200)
+        }
+    })
+})
+app.post('/change-cover-picture',(REQ,RES) => {
+    var req = JSON.parse(REQ.body.data)
+    var i = 0;
+    var p1 = new Promise(function(resolve, reject) {
+        req.covers.forEach(element => {
+            ++i;
+            require("fs").writeFile("./user_covers/"+req.id+"_"+i.toString()+".png", element, {encoding:'base64'}, (err) => console.log(err))
+            User.update({
+                cover_pics:sequelize.fn('array_append', sequelize.col('cover_pics'),req.id+"_"+i.toString()+".png")
+            },{
+                where: {id: req.id}
+            })
+            .then(u=> {})
+        });
+        resolve("done")
+    });
+    p1.then(x=> {
+        RES.sendStatus(200)
+    })
+})
+app.post('/change-bio',(REQ,RES) => {
+    var req = JSON.parse(REQ.body.data)
+    User.update({
+        bio:req.bio
+    },{
+        where: {id: req.id}
+    })
+    .then(u=> {
+        if(u){
+            RES.sendStatus(200)
+        }
+    })
+})
+app.post('/change-name',(REQ,RES) => {
+    var req = JSON.parse(REQ.body.data)
+    User.update({
+        fname:req.fname
+    },{
+        where: {id: req.id}
+    })
+    .then(u=> {
+        if(u){
+            RES.sendStatus(200)
+        }
+    })
+})
+app.post('/change-email',(REQ,RES) => {
+    var req = JSON.parse(REQ.body.data)
+    User.update({
+        email:req.email
+    },{
+        where: {id: req.id}
+    })
+    .then(u=> {
+        if(u){
+            RES.sendStatus(200)
         }
     })
 })
