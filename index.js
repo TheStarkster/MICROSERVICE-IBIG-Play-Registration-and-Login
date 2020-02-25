@@ -403,7 +403,7 @@ app.post('/change-profile-picture',(REQ,RES) => {
     var req = JSON.parse(REQ.body.data)
     require("fs").writeFile("./user_dp/"+req.id+".png", req.dp, {encoding:'base64'}, (err) => console.log(err))
     User.update({
-        dp:req.id
+        dp:"http://162.241.71.139:2643/user_dp/"+req.id+".png"
     },{
         where: {id: req.id}
     })
