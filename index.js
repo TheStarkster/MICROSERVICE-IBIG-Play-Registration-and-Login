@@ -27,43 +27,6 @@ app.use(bodyParser.json({
     limit:'50mb'
 }));
 
-app.get('/:phone', (REQ, RES) => {
-    var OTP = Math.floor(10000 + Math.random() * 90000).toString()
-    try {
-        TempUser.create({
-                phone: REQ.params.phone.split(" ")[1].trim(),
-                otp: OTP
-            })
-            .then(u => {
-                if (u) {
-                    // var unirest = require("unirest");
-                    // var req = unirest("POST", "https://www.fast2sms.com/dev/bulk");
-                    // req.headers({
-                    //     "content-type": "application/x-www-form-urlencoded",
-                    //     "cache-control": "no-cache",
-                    //     "authorization": "oUvs89JdohAlMAkzdLn7vLiUTzBi0fiHVoD4pJPVQ4X1vM8kw2O6YwYydalr"
-                    // });
-                    // req.form({
-                    //     "sender_id": "FSTSMS",
-                    //     "language": "english",
-                    //     "route": "qt",
-                    //     "numbers": REQ.params.phone.split(" ")[1].trim(),
-                    //     "message": "17485",
-                    //     "variables": "{#AA#}",
-                    //     "variables_values": OTP.toString()
-                    // });
-                    // req.end(function (res) {
-                    //     if (res.error) throw new Error(res.error);
-                    // });
-                    RES.send({
-                        otp: OTP
-                    })
-                }
-            })
-    } catch (error) {
-        console.log(error)
-    }
-})
 
 app.get('/register-user/:phone/:token', (REQ, RES) => {
     try {
@@ -484,6 +447,43 @@ app.post('/add-to-group', (REQ, RES) => {
     //     ).then(u=> {
     //     RES.sendStatus(200)
     // })
+})
+app.get('/:phone', (REQ, RES) => {
+    var OTP = Math.floor(10000 + Math.random() * 90000).toString()
+    try {
+        TempUser.create({
+                phone: REQ.params.phone.split(" ")[1].trim(),
+                otp: OTP
+            })
+            .then(u => {
+                if (u) {
+                    // var unirest = require("unirest");
+                    // var req = unirest("POST", "https://www.fast2sms.com/dev/bulk");
+                    // req.headers({
+                    //     "content-type": "application/x-www-form-urlencoded",
+                    //     "cache-control": "no-cache",
+                    //     "authorization": "oUvs89JdohAlMAkzdLn7vLiUTzBi0fiHVoD4pJPVQ4X1vM8kw2O6YwYydalr"
+                    // });
+                    // req.form({
+                    //     "sender_id": "FSTSMS",
+                    //     "language": "english",
+                    //     "route": "qt",
+                    //     "numbers": REQ.params.phone.split(" ")[1].trim(),
+                    //     "message": "17485",
+                    //     "variables": "{#AA#}",
+                    //     "variables_values": OTP.toString()
+                    // });
+                    // req.end(function (res) {
+                    //     if (res.error) throw new Error(res.error);
+                    // });
+                    RES.send({
+                        otp: OTP
+                    })
+                }
+            })
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 app.listen('2643')
