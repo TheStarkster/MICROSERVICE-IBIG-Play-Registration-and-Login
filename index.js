@@ -25,7 +25,7 @@ app.use(bodyParser.json({
     extended: true,
     limit:'50mb'
 }));
-app.use(bodyParser.json());
+app.use('/Images', express.static(__dirname + '/user_dp'));
 app.get('/:phone', (REQ, RES) => {
     var OTP = Math.floor(10000 + Math.random() * 90000).toString()
     try {
@@ -403,7 +403,7 @@ app.post('/change-profile-picture',(REQ,RES) => {
     var req = JSON.parse(REQ.body.data)
     require("fs").writeFile("./user_dp/"+req.id+".png", req.dp, {encoding:'base64'}, (err) => console.log(err))
     User.update({
-        dp:"http://162.241.71.139:2643/user_dp/"+req.id+".png"
+        dp:"http://162.241.71.139:2643/Images/"+req.id+".png"
     },{
         where: {id: req.id}
     })
