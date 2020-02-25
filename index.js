@@ -21,6 +21,7 @@ app.use(bodyParser.urlencoded({
     extended: true,
     limit:'50mb'
 }));
+app.use(express.static('public'));
 app.use('/Images', express.static(__dirname + '/user_dp'));
 app.use(bodyParser.json({
     extended: true,
