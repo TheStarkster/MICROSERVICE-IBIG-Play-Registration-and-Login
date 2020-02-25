@@ -102,7 +102,7 @@ app.get('/find-user/:phone/:user_id', (REQ, RES) => {
                                 ResObj.push({
                                     id: eachPhone.id,
                                     phone: eachPhone.phone,
-                                    fullname: eachPhone.fname + " " + eachPhone.lname,
+                                    fullname: eachPhone.fname,
                                     token: eachPhone.token,
                                     isRequested: RequestSent.some(eachReq => parseInt(eachReq.to) === parseInt(eachPhone.id)) ? true : false
                                 })
