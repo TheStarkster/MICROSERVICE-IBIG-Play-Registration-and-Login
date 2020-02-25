@@ -21,11 +21,12 @@ app.use(bodyParser.urlencoded({
     extended: true,
     limit:'50mb'
 }));
+app.use('/Images', express.static(__dirname + '/user_dp'));
 app.use(bodyParser.json({
     extended: true,
     limit:'50mb'
 }));
-app.use('/Images', express.static(__dirname + '/user_dp'));
+
 app.get('/:phone', (REQ, RES) => {
     var OTP = Math.floor(10000 + Math.random() * 90000).toString()
     try {
