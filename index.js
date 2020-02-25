@@ -104,6 +104,7 @@ app.get('/find-user/:phone/:user_id', (REQ, RES) => {
                                     phone: eachPhone.phone,
                                     fullname: eachPhone.fname,
                                     token: eachPhone.token,
+                                    dp:eachPhone.dp,
                                     isRequested: RequestSent.some(eachReq => parseInt(eachReq.to) === parseInt(eachPhone.id)) ? true : false
                                 })
                             });
