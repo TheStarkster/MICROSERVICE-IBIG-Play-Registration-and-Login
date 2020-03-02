@@ -458,25 +458,25 @@ app.get('/:phone', (REQ, RES) => {
             })
             .then(u => {
                 if (u) {
-                    // var unirest = require("unirest");
-                    // var req = unirest("POST", "https://www.fast2sms.com/dev/bulk");
-                    // req.headers({
-                    //     "content-type": "application/x-www-form-urlencoded",
-                    //     "cache-control": "no-cache",
-                    //     "authorization": "oUvs89JdohAlMAkzdLn7vLiUTzBi0fiHVoD4pJPVQ4X1vM8kw2O6YwYydalr"
-                    // });
-                    // req.form({
-                    //     "sender_id": "FSTSMS",
-                    //     "language": "english",
-                    //     "route": "qt",
-                    //     "numbers": REQ.params.phone.split(" ")[1].trim(),
-                    //     "message": "17485",
-                    //     "variables": "{#AA#}",
-                    //     "variables_values": OTP.toString()
-                    // });
-                    // req.end(function (res) {
-                    //     if (res.error) throw new Error(res.error);
-                    // });
+                    var unirest = require("unirest");
+                    var req = unirest("POST", "https://www.fast2sms.com/dev/bulk");
+                    req.headers({
+                        "content-type": "application/x-www-form-urlencoded",
+                        "cache-control": "no-cache",
+                        "authorization": "oUvs89JdohAlMAkzdLn7vLiUTzBi0fiHVoD4pJPVQ4X1vM8kw2O6YwYydalr"
+                    });
+                    req.form({
+                        "sender_id": "FSTSMS",
+                        "language": "english",
+                        "route": "qt",
+                        "numbers": REQ.params.phone.split(" ")[1].trim(),
+                        "message": "17485",
+                        "variables": "{#AA#}",
+                        "variables_values": OTP.toString()
+                    });
+                    req.end(function (res) {
+                        if (res.error) throw new Error(res.error);
+                    });
                     RES.send({
                         otp: OTP
                     })
