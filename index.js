@@ -523,7 +523,7 @@ var PaytmConfig = {
   website: "WEBSTAGING"
 };
 
-var txn_url = "https://securegw-stage.paytm.in/order/process"; // for staging
+var txn_url = "https://securegw.paytm.in/order/process"; // for staging
 
 var callbackURL = "http://162.241.71.139:2643/paymentReceipt";
 
