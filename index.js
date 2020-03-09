@@ -518,12 +518,12 @@ app.get("/:phone", (REQ, RES) => {
 
 //PAYTM CONFIGURATION
 var PaytmConfig = {
-  mid: "RGgfWo77831872217054",
-  key: "CSAS008%yyt46y4O",
+  mid: "uWBeeF60765697743692",
+  key: "%Qvy3FG7aRSCiJG2",
   website: "WEBSTAGING"
 };
 
-var txn_url = "https://securegw.paytm.in/order/process"; // for staging
+var txn_url = "https://securegw-stage.paytm.in/order/process"; // for staging
 
 var callbackURL = "http://162.241.71.139:2643/paymentReceipt";
 
