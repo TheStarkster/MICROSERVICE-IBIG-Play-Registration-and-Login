@@ -599,6 +599,8 @@ app.post("/paymentReceipt", (req, res) => {
 
 app.post("/wallet/credit", (REQ, RES) => {
   var req = JSON.parse(REQ.body.data);
+  console.log(req.amount);
+  console.log(typeof req.amount);
   User.update(
     {
       paytm_bal: req.amount,
