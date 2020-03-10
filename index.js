@@ -600,26 +600,29 @@ app.post("/paymentReceipt", (req, res) => {
 app.post("/wallet/credit", (REQ, RES) => {
   var req = JSON.parse(REQ.body.data);
   var bal;
-  User.findAll({ where: { id: req.id }, raw: true }).then(u => {
-    bal = u[0].paytm_bal;
-  });
-  User.update(
-    {
-      paytm_bal: parseInt(bal == null ? 0 : bal) + parseInt(req.amount),
-      paytm_orders: sequelize.fn(
-        "array_append",
-        sequelize.col("paytm_orders"),
-        req.order
-      )
-    },
-    {
-      where: {
-        id: req.id
-      }
-    }
-  ).then(u => {
-    RES.send({ message: "done" });
-  });
+  User.findAll({ where: { id: req.id }, raw: true })
+    .then(u => {
+      bal = u[0].paytm_bal;
+    })
+    .then(a => {
+      User.update(
+        {
+          paytm_bal: parseInt(bal == null ? 0 : bal) + parseInt(req.amount),
+          paytm_orders: sequelize.fn(
+            "array_append",
+            sequelize.col("paytm_orders"),
+            req.order
+          )
+        },
+        {
+          where: {
+            id: req.id
+          }
+        }
+      ).then(u => {
+        RES.send({ message: "done" });
+      });
+    });
 });
 app.listen("2643");
 db.authenticate()
