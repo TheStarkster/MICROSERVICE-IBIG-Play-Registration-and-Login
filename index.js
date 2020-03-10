@@ -605,7 +605,7 @@ app.post("/wallet/credit", (REQ, RES) => {
     console.log(u[0]);
     console.log(bal);
     console.log(req.amount);
-    console.log(parseFloat(bal) + parseFloat(req.amount));
+    console.log(parseFloat(bal == null ? 0 : bal) + parseFloat(req.amount));
   });
   User.update(
     {
