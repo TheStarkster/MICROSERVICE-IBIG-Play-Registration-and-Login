@@ -609,7 +609,7 @@ app.post("/wallet/credit", (REQ, RES) => {
   });
   User.update(
     {
-      paytm_bal: parseFloat(bal) + parseFloat(req.amount),
+      paytm_bal: parseInt(bal) + parseInt(req.amount),
       paytm_orders: sequelize.fn(
         "array_append",
         sequelize.col("paytm_orders"),
