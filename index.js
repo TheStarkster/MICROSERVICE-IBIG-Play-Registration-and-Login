@@ -601,13 +601,20 @@ app.post("/wallet/credit", (REQ, RES) => {
   var req = JSON.parse(REQ.body.data);
   User.update(
     {
-      paytm_bal: parseFloat(req.amount)
+      paytm_bal: parseFloat(req.amount),
+      paytm_orders: sequelize.fn(
+        "array_append",
+        sequelize.col("paytm_orders"),
+        req.order
+      )
     },
-    { where: { id: req.id } }
-  ).then(z => {
-    if (z) {
-      RES.send({ message: "done" });
+    {
+      where: {
+        id: req.id
+      }
     }
+  ).then(u => {
+    RES.send({ message: "done" });
   });
 });
 app.listen("2643");
