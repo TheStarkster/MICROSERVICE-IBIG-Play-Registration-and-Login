@@ -599,16 +599,13 @@ app.post("/paymentReceipt", (req, res) => {
 
 app.post("/wallet/credit", (REQ, RES) => {
   var req = JSON.parse(REQ.body.data);
-  console.log(req.amount);
-  console.log(typeof req.amount);
   User.update(
     {
       paytm_orders: sequelize.fn(
         "array_append",
         sequelize.col("paytm_orders"),
         req.order
-      ),
-      paytm_bal: req.amount.toString()
+      )
     },
     {
       where: {
@@ -616,9 +613,16 @@ app.post("/wallet/credit", (REQ, RES) => {
       }
     }
   ).then(u => {
-    if (u) {
-      RES.send({ message: "done" });
-    }
+    User.update(
+      {
+        paytm_bal: parseFloat(req.amount)
+      },
+      { where: { id: req.id } }
+    ).then(z => {
+      if (z) {
+        RES.send({ message: "done" });
+      }
+    });
   });
 });
 app.listen("2643");
