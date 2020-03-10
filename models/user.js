@@ -25,7 +25,7 @@ const User = db.define("user", {
   email: {
     type: Sequelize.STRING
   },
-  paytm: {
+  paytm_bal: {
     type: Sequelize.STRING
   },
   cover_pics: {
