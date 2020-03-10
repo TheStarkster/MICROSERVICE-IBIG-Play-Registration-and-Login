@@ -602,10 +602,12 @@ app.post("/wallet/credit", (REQ, RES) => {
   var bal;
   User.findAll({ where: { id: req.id }, raw: true }).then(u => {
     bal = u[0].paytm_bal;
+    console.log(u[0]);
+    console.log(bal);
   });
   User.update(
     {
-      paytm_bal: bal + parseFloat(req.amount),
+      paytm_bal: parseFloat(bal) + parseFloat(req.amount),
       paytm_orders: sequelize.fn(
         "array_append",
         sequelize.col("paytm_orders"),
