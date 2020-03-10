@@ -604,6 +604,8 @@ app.post("/wallet/credit", (REQ, RES) => {
     bal = u[0].paytm_bal;
     console.log(u[0]);
     console.log(bal);
+    console.log(req.amount);
+    console.log(parseFloat(bal) + parseFloat(req.amount));
   });
   User.update(
     {
