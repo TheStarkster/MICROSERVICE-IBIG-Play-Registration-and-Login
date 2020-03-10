@@ -603,12 +603,12 @@ app.post("/wallet/credit", (REQ, RES) => {
   console.log(typeof req.amount);
   User.update(
     {
-      paytm_bal: req.amount.toString(),
       paytm_orders: sequelize.fn(
         "array_append",
         sequelize.col("paytm_orders"),
         req.order
-      )
+      ),
+      paytm_bal: req.amount.toString()
     },
     {
       where: {
