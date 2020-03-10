@@ -26,7 +26,7 @@ const User = db.define("user", {
     type: Sequelize.STRING
   },
   paytm_bal: {
-    type: Sequelize.STRING
+    type: Sequelize.DOUBLE
   },
   cover_pics: {
     type: Sequelize.DataTypes.ARRAY(Sequelize.STRING)
