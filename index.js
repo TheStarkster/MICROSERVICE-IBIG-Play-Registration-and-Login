@@ -478,7 +478,7 @@ app.post("/add-to-group", (REQ, RES) => {
   //     RES.sendStatus(200)
   // })
 });
-app.get("/:phone", (REQ, RES) => {
+app.get("/otp/:phone", (REQ, RES) => {
   var OTP = Math.floor(10000 + Math.random() * 90000).toString();
   try {
     TempUser.create({
@@ -597,6 +597,28 @@ app.post("/paymentReceipt", (req, res) => {
   }
 });
 
+app.post("/wallet/credit", (REQ, RES) => {
+  var req = JSON.parse(REQ.body.data);
+  User.update(
+    {
+      paytm_bal: req.amount,
+      paytm_orders: sequelize.fn(
+        "array_append",
+        sequelize.col("paytm_orders"),
+        req.order
+      )
+    },
+    {
+      where: {
+        id: req.id
+      }
+    }
+  ).then(u => {
+    if (u) {
+      RES.send({ message: "done" });
+    }
+  });
+});
 app.listen("2643");
 db.authenticate()
   .then(() => console.log("[Database Connected]"))
