@@ -624,7 +624,8 @@ app.post("/wallet/credit", (REQ, RES) => {
       });
     });
 });
-app.post("/tournaments/add", (req, res) => {
+app.post("/tournaments/add", (REQ, RES) => {
+  var req = JSON.parse(REQ.body.data);
   User.update(
     {
       tournaments: sequelize.fn(
@@ -639,7 +640,7 @@ app.post("/tournaments/add", (req, res) => {
       }
     }
   ).then(u => {
-    res.sendStatus(200);
+    RES.sendStatus(200);
   });
 });
 
