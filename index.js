@@ -631,12 +631,12 @@ app.post("/tournaments/add", (REQ, RES) => {
       tournaments: sequelize.fn(
         "array_append",
         sequelize.col("tournaments"),
-        req.body.tid
+        req.tid
       )
     },
     {
       where: {
-        id: req.body.id
+        id: req.id
       }
     }
   ).then(u => {
