@@ -624,6 +624,25 @@ app.post("/wallet/credit", (REQ, RES) => {
       });
     });
 });
+app.post("/tournaments/add", (req, res) => {
+  User.update(
+    {
+      tournaments: sequelize.fn(
+        "array_append",
+        sequelize.col("tournaments"),
+        req.body.tid
+      )
+    },
+    {
+      where: {
+        id: req.body.id
+      }
+    }
+  ).then(u => {
+    res.sendStatus(200);
+  });
+});
+
 app.listen("2643");
 db.authenticate()
   .then(() => console.log("[Database Connected]"))
