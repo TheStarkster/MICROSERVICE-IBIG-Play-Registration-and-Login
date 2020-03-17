@@ -631,7 +631,7 @@ app.post("/tournaments/add", (REQ, RES) => {
       tournaments: sequelize.fn(
         "array_append",
         sequelize.col("tournaments"),
-        req.tid
+        BigInt(req.tid)
       )
     },
     {
