@@ -624,25 +624,25 @@ app.post("/wallet/credit", (REQ, RES) => {
       });
     });
 });
-app.post("/tournaments/add", (REQ, RES) => {
-  var req = JSON.parse(REQ.body.data);
-  User.update(
-    {
-      tournaments: sequelize.fn(
-        "array_append",
-        sequelize.col("tournaments"),
-        req.tid
-      )
-    },
-    {
-      where: {
-        id: req.id
-      }
-    }
-  ).then(u => {
-    RES.sendStatus(200);
-  });
-});
+// app.post("/tournaments/add", (REQ, RES) => {
+//   var req = JSON.parse(REQ.body.data);
+//   User.update(
+//     {
+//       tournaments: sequelize.fn(
+//         "array_append",
+//         sequelize.col("tournaments"),
+//         req.tid
+//       )
+//     },
+//     {
+//       where: {
+//         id: req.id
+//       }
+//     }
+//   ).then(u => {
+//     RES.sendStatus(200);
+//   });
+// });
 
 app.listen("2643");
 db.authenticate()
