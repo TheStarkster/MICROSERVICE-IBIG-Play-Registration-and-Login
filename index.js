@@ -515,6 +515,16 @@ app.get("/otp/:phone", (REQ, RES) => {
     console.log(error);
   }
 });
+app.get("/get-profile-picture/:id", (req, res) => {
+  User.findAll({
+    where: {
+      id: req.params.id
+    },
+    raw: true
+  }).then(u => {
+    res.send(u[0].dp);
+  });
+});
 
 //PAYTM CONFIGURATION
 var PaytmConfig = {
