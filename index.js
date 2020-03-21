@@ -647,7 +647,7 @@ app.get("/get-all-credits/:id", (req, res) => {
     where: {
       id: req.params.id
     },
-    attributes: ["id", "coins", "paytm_bal"]
+    attributes: ["id", "coins", "paytm_bal", "wamount"]
   }).then(r => {
     res.send(r);
   });
