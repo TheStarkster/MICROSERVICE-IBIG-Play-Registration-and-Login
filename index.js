@@ -642,7 +642,16 @@ app.post("/wallet/credit", (REQ, RES) => {
 //     RES.sendStatus(200);
 //   });
 // });
-
+app.get("/get-all-credits/:id", (req, res) => {
+  User.findAll({
+    where: {
+      id: req.params.id
+    },
+    attributes: ["id", "coins", "paytm_bal"]
+  }).then(r => {
+    res.send(r);
+  });
+});
 app.listen("2643");
 db.authenticate()
   .then(() => console.log("[Database Connected]"))
