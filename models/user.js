@@ -33,10 +33,10 @@ const User = db.define("user", {
   },
   paytm_orders: {
     type: Sequelize.DataTypes.ARRAY(Sequelize.STRING)
-  },
-  tournaments: {
-    type: Sequelize.DataTypes.ARRAY(Sequelize.INTEGER)
   }
+  // tournaments: {
+  //   type: Sequelize.DataTypes.ARRAY(Sequelize.INTEGER)
+  // }
 });
 
 module.exports = User;
