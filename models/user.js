@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const db = require("../config/connection/db");
+const db = require("../config/userDB");
 const User = db.define("user", {
   phone: {
     type: Sequelize.STRING
@@ -33,10 +33,19 @@ const User = db.define("user", {
   },
   paytm_orders: {
     type: Sequelize.DataTypes.ARRAY(Sequelize.STRING)
+  },
+  wamount: {
+    type: Sequelize.INTEGER
+  },
+  coins: {
+    type: Sequelize.INTEGER
+  },
+  TshirtSize: {
+    type: Sequelize.STRING
+  },
+  address: {
+    type: Sequelize.STRING
   }
-  // tournaments: {
-  //   type: Sequelize.DataTypes.ARRAY(Sequelize.INTEGER)
-  // }
 });
 
 module.exports = User;

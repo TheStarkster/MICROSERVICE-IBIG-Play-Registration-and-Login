@@ -652,6 +652,28 @@ app.get("/get-all-credits/:id", (req, res) => {
     res.send(r);
   });
 });
+app.post("/save-address", (REQ, RES) => {
+  var req = JSON.parse(REQ.body.data);
+  User.update(
+    {
+      address: req.address
+    },
+    { where: { id: req.id } }
+  ).then(u => {
+    RES.sendStatus(200);
+  });
+});
+app.post("/save-shirt-size", (REQ, RES) => {
+  var req = JSON.parse(REQ.body.data);
+  User.update(
+    {
+      TshirtSize: req.size
+    },
+    { where: { id: req.id } }
+  ).then(u => {
+    RES.sendStatus(200);
+  });
+});
 app.listen("2643");
 db.authenticate()
   .then(() => console.log("[Database Connected]"))
