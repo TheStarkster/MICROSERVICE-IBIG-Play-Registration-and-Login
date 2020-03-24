@@ -37,7 +37,11 @@ app.get("/register-user/:phone/:token", (REQ, RES) => {
   try {
     User.create({
       phone: REQ.params.phone,
-      token: REQ.params.token
+      token: REQ.params.token,
+      wamount: 0,
+      bonus: 0,
+      coins: 20,
+      paytm_bal: 0
     }).then(u => {
       RES.send(u);
     });
