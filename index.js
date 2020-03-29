@@ -486,7 +486,7 @@ app.get("/otp/:phone", (REQ, RES) => {
   var OTP = Math.floor(10000 + Math.random() * 90000).toString();
   try {
     TempUser.create({
-      phone: REQ.params.phone.split(" ")[1].trim(),
+      phone: REQ.params.phone,
       otp: OTP
     }).then(u => {
       if (u) {
@@ -502,7 +502,7 @@ app.get("/otp/:phone", (REQ, RES) => {
           sender_id: "FSTSMS",
           language: "english",
           route: "qt",
-          numbers: REQ.params.phone.split(" ")[1].trim(),
+          numbers: REQ.params.phone,
           message: "17485",
           variables: "{#AA#}",
           variables_values: OTP.toString()
