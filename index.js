@@ -15,13 +15,13 @@ const serviceAccount = require("./ibig-play-e3f6f-firebase-adminsdk-yrpgu-72d559
 
 Fadmin.initializeApp({
   credential: Fadmin.credential.cert(serviceAccount),
-  databaseURL: "https://ibig-play.firebaseio.com"
+  databaseURL: "https://ibig-play.firebaseio.com",
 });
 // Body Parser...
 app.use(
   bodyParser.urlencoded({
     extended: true,
-    limit: "50mb"
+    limit: "50mb",
   })
 );
 app.use(express.static("public"));
@@ -29,7 +29,7 @@ app.use("/Images", express.static(__dirname + "/user_dp"));
 app.use(
   bodyParser.json({
     extended: true,
-    limit: "50mb"
+    limit: "50mb",
   })
 );
 
@@ -41,8 +41,8 @@ app.get("/register-user/:phone/:token", (REQ, RES) => {
       wamount: 0,
       bonus: 0,
       coins: 20,
-      paytm_bal: 0
-    }).then(u => {
+      paytm_bal: 0,
+    }).then((u) => {
       RES.send(u);
     });
   } catch (error) {
@@ -56,19 +56,19 @@ app.get("/find-user/:phone/:user_id", (REQ, RES) => {
     User.findAll({
       where: {
         phone: {
-          [sequelize.Op.like]: REQ.params.phone + "%"
-        }
+          [sequelize.Op.like]: REQ.params.phone + "%",
+        },
       },
-      raw: true
-    }).then(PhoneNumbers => {
+      raw: true,
+    }).then((PhoneNumbers) => {
       if (PhoneNumbers.length > 0) {
         RequestModal.findAll({
           where: {
-            from: parseInt(REQ.params.user_id)
+            from: parseInt(REQ.params.user_id),
           },
-          raw: true
-        }).then(RequestSent => {
-          PhoneNumbers.forEach(eachPhone => {
+          raw: true,
+        }).then((RequestSent) => {
+          PhoneNumbers.forEach((eachPhone) => {
             ResObj.push({
               id: eachPhone.id,
               phone: eachPhone.phone,
@@ -76,19 +76,19 @@ app.get("/find-user/:phone/:user_id", (REQ, RES) => {
               token: eachPhone.token,
               dp: eachPhone.dp,
               isRequested: RequestSent.some(
-                eachReq => parseInt(eachReq.to) === parseInt(eachPhone.id)
+                (eachReq) => parseInt(eachReq.to) === parseInt(eachPhone.id)
               )
                 ? true
-                : false
+                : false,
             });
           });
           RES.send({
-            message: ResObj
+            message: ResObj,
           });
         });
       } else {
         RES.send({
-          message: "404"
+          message: "404",
         });
       }
     });
@@ -102,46 +102,46 @@ app.get("/send-request/:receiver_id/:sender_id/:senderphone", (REQ, RES) => {
     RequestModal.findAll({
       where: {
         to: parseInt(REQ.params.receiver_id),
-        from: parseInt(REQ.params.sender_id)
+        from: parseInt(REQ.params.sender_id),
       },
-      raw: true
-    }).then(output => {
+      raw: true,
+    }).then((output) => {
       if (output.length > 0) {
         RequestModal.destroy({
           where: {
             to: parseInt(REQ.params.receiver_id),
-            from: parseInt(REQ.params.sender_id)
+            from: parseInt(REQ.params.sender_id),
           },
-          raw: true
-        }).then(a => {
+          raw: true,
+        }).then((a) => {
           RES.sendStatus(200);
         });
       } else {
         User.findAll({
           where: {
-            id: parseInt(REQ.params.receiver_id)
+            id: parseInt(REQ.params.receiver_id),
           },
-          raw: true
-        }).then(u => {
+          raw: true,
+        }).then((u) => {
           Fadmin.messaging()
             .sendToDevice(u[0].token, {
               notification: {
                 title: "Notification",
                 body: REQ.params.senderphone + " wants to text you!",
-                sound: "default"
+                sound: "default",
               },
               data: {
                 sendername: "IBIG",
-                message: "its a Request Message!"
-              }
+                message: "its a Request Message!",
+              },
             })
-            .then(r => {
+            .then((r) => {
               RES.sendStatus(200);
             });
           RequestModal.create({
             to: parseInt(REQ.params.receiver_id),
             from: parseInt(REQ.params.sender_id),
-            phone_of_from: REQ.params.senderphone
+            phone_of_from: REQ.params.senderphone,
           });
         });
       }
@@ -160,8 +160,8 @@ app.post("/save-message-online", (REQ, RES) => {
       sender_phone: res.receiver_id,
       image: res.image,
       read: false,
-      received: true
-    }).then(u => {
+      received: true,
+    }).then((u) => {
       RES.send(u);
     });
   } catch (error) {
@@ -177,8 +177,8 @@ app.post("/save-message", (REQ, RES) => {
         sender: parseInt(res.sender),
         receiver: parseInt(res.receiver_id),
         image: res.image,
-        read: false
-      }).then(u => {
+        read: false,
+      }).then((u) => {
         RES.sendStatus(200);
       });
     } else {
@@ -186,19 +186,19 @@ app.post("/save-message", (REQ, RES) => {
     }
     User.findAll({
       where: {
-        id: res.receiver_id
-      }
-    }).then(r => {
+        id: res.receiver_id,
+      },
+    }).then((r) => {
       Fadmin.messaging().sendToDevice(r[0].token, {
         notification: {
           title: "Notification",
           body: res.message,
-          sound: "default"
+          sound: "default",
         },
         data: {
           sendername: "IBIG",
-          message: "Request Accepted"
-        }
+          message: "Request Accepted",
+        },
       });
     });
   } catch (error) {
@@ -211,22 +211,22 @@ app.get("/get-messages/:of", (REQ, RES) => {
       where: {
         receiver: parseInt(REQ.params.of),
         read: false,
-        received: false
+        received: false,
       },
-      raw: true
-    }).then(u => {
+      raw: true,
+    }).then((u) => {
       Messages.update(
         {
-          received: true
+          received: true,
         },
         {
           where: {
             receiver: parseInt(REQ.params.of),
             read: false,
-            received: false
-          }
+            received: false,
+          },
         }
-      ).then(r => {
+      ).then((r) => {
         RES.send(u);
       });
     });
@@ -239,10 +239,10 @@ app.get("/get-requests/:user_id", (REQ, RES) => {
     var ResObj = [];
     RequestModal.findAll({
       where: {
-        to: parseInt(REQ.params.user_id)
+        to: parseInt(REQ.params.user_id),
       },
-      raw: true
-    }).then(u => {
+      raw: true,
+    }).then((u) => {
       RES.send(u);
     });
   } catch (error) {
@@ -256,14 +256,14 @@ app.post("/read-message", (REQ, RES) => {
     var ids = res_ids.split(",");
     Messages.update(
       {
-        read: true
+        read: true,
       },
       {
         where: {
-          id: ids
-        }
+          id: ids,
+        },
       }
-    ).then(u => {
+    ).then((u) => {
       if (u) {
         RES.sendStatus(200);
       }
@@ -277,9 +277,9 @@ app.get("/accept-request/:id", (REQ, RES) => {
   try {
     RequestModal.destroy({
       where: {
-        id: REQ.params.id
-      }
-    }).then(u => {
+        id: REQ.params.id,
+      },
+    }).then((u) => {
       RES.sendStatus(200);
     });
   } catch (error) {
@@ -290,9 +290,9 @@ app.get("/reject-request/:id", (REQ, RES) => {
   try {
     RequestModal.destroy({
       where: {
-        id: REQ.params.id
-      }
-    }).then(u => {
+        id: REQ.params.id,
+      },
+    }).then((u) => {
       RES.sendStatus(200);
     });
   } catch (error) {
@@ -303,22 +303,22 @@ app.post("/create-group", (REQ, RES) => {
   Groups.create({
     groupname: REQ.body.groupName,
     admin: JSON.parse(REQ.body.admin),
-    numberOfParticipants: parseInt(REQ.body.numberOfParticipants)
-  }).then(u => {
+    numberOfParticipants: parseInt(REQ.body.numberOfParticipants),
+  }).then((u) => {
     User.update(
       {
         groups: sequelize.fn(
           "array_append",
           sequelize.col("groups"),
           u.dataValues.id.toString()
-        )
+        ),
       },
       {
         where: {
-          id: JSON.parse(REQ.body.participants)
-        }
+          id: JSON.parse(REQ.body.participants),
+        },
       }
-    ).then(a => {
+    ).then((a) => {
       RES.send(JSON.stringify({ message: u.dataValues.id }));
     });
   });
@@ -329,10 +329,10 @@ app.post("/save-group-message-online", (REQ, RES) => {
   GroupsMessage.create({
     message: res.message,
     groupid: res.groupid,
-    sentby: res.groupid
-  }).then(u => {
+    sentby: res.groupid,
+  }).then((u) => {
     RES.send({
-      message: u
+      message: u,
     });
   });
 });
@@ -353,7 +353,7 @@ app.post("/send-image-with-captions-to-one-or-more", (REQ, RES) => {
     //         received: true
     //     })
     // });
-    Messages.bulkCreate(res).then(u => {
+    Messages.bulkCreate(res).then((u) => {
       RES.send(u);
     });
   } catch (error) {
@@ -363,10 +363,10 @@ app.post("/send-image-with-captions-to-one-or-more", (REQ, RES) => {
 app.get("/get-image-message/:id", (REQ, RES) => {
   Messages.findAll({
     where: {
-      id: REQ.params.id
+      id: REQ.params.id,
     },
-    raw: true
-  }).then(u => {
+    raw: true,
+  }).then((u) => {
     if (u) {
       RES.send(u);
     }
@@ -379,16 +379,16 @@ app.post("/change-profile-picture", (REQ, RES) => {
     "./user_dp/" + req.id + ".png",
     req.dp,
     { encoding: "base64" },
-    err => console.log(err)
+    (err) => console.log(err)
   );
   User.update(
     {
-      dp: "http://162.241.71.139:2643/Images/" + req.id + ".png"
+      dp: "http://162.241.71.139:2643/Images/" + req.id + ".png",
     },
     {
-      where: { id: req.id }
+      where: { id: req.id },
     }
-  ).then(u => {
+  ).then((u) => {
     if (u) {
       RES.sendStatus(200);
     }
@@ -397,14 +397,14 @@ app.post("/change-profile-picture", (REQ, RES) => {
 app.post("/change-cover-picture", (REQ, RES) => {
   var req = JSON.parse(REQ.body.data);
   var i = 0;
-  var p1 = new Promise(function(resolve, reject) {
-    req.covers.forEach(element => {
+  var p1 = new Promise(function (resolve, reject) {
+    req.covers.forEach((element) => {
       ++i;
       require("fs").writeFile(
         "./user_covers/" + req.id + "_" + i.toString() + ".png",
         element,
         { encoding: "base64" },
-        err => console.log(err)
+        (err) => console.log(err)
       );
       User.update(
         {
@@ -412,16 +412,16 @@ app.post("/change-cover-picture", (REQ, RES) => {
             "array_append",
             sequelize.col("cover_pics"),
             req.id + "_" + i.toString() + ".png"
-          )
+          ),
         },
         {
-          where: { id: req.id }
+          where: { id: req.id },
         }
-      ).then(u => {});
+      ).then((u) => {});
     });
     resolve("done");
   });
-  p1.then(x => {
+  p1.then((x) => {
     RES.sendStatus(200);
   });
 });
@@ -429,12 +429,12 @@ app.post("/change-bio", (REQ, RES) => {
   var req = JSON.parse(REQ.body.data);
   User.update(
     {
-      bio: req.bio
+      bio: req.bio,
     },
     {
-      where: { id: req.id }
+      where: { id: req.id },
     }
-  ).then(u => {
+  ).then((u) => {
     if (u) {
       RES.sendStatus(200);
     }
@@ -444,12 +444,12 @@ app.post("/change-name", (REQ, RES) => {
   var req = JSON.parse(REQ.body.data);
   User.update(
     {
-      fname: req.fname
+      fname: req.fname,
     },
     {
-      where: { id: req.id }
+      where: { id: req.id },
     }
-  ).then(u => {
+  ).then((u) => {
     if (u) {
       RES.sendStatus(200);
     }
@@ -459,12 +459,12 @@ app.post("/change-email", (REQ, RES) => {
   var req = JSON.parse(REQ.body.data);
   User.update(
     {
-      email: req.email
+      email: req.email,
     },
     {
-      where: { id: req.id }
+      where: { id: req.id },
     }
-  ).then(u => {
+  ).then((u) => {
     if (u) {
       RES.sendStatus(200);
     }
@@ -487,8 +487,8 @@ app.get("/otp/:phone", (REQ, RES) => {
   try {
     TempUser.create({
       phone: REQ.params.phone,
-      otp: OTP
-    }).then(u => {
+      otp: OTP,
+    }).then((u) => {
       if (u) {
         var unirest = require("unirest");
         var req = unirest("POST", "https://www.fast2sms.com/dev/bulk");
@@ -496,7 +496,7 @@ app.get("/otp/:phone", (REQ, RES) => {
           "content-type": "application/x-www-form-urlencoded",
           "cache-control": "no-cache",
           authorization:
-            "oUvs89JdohAlMAkzdLn7vLiUTzBi0fiHVoD4pJPVQ4X1vM8kw2O6YwYydalr"
+            "oUvs89JdohAlMAkzdLn7vLiUTzBi0fiHVoD4pJPVQ4X1vM8kw2O6YwYydalr",
         });
         req.form({
           sender_id: "FSTSMS",
@@ -505,13 +505,13 @@ app.get("/otp/:phone", (REQ, RES) => {
           numbers: REQ.params.phone,
           message: "17485",
           variables: "{#AA#}",
-          variables_values: OTP.toString()
+          variables_values: OTP.toString(),
         });
-        req.end(function(res) {
+        req.end(function (res) {
           if (res.error) throw new Error(res.error);
         });
         RES.send({
-          otp: OTP
+          otp: OTP,
         });
       }
     });
@@ -521,9 +521,9 @@ app.get("/otp/:phone", (REQ, RES) => {
 });
 //PAYTM CONFIGURATION
 var PaytmConfig = {
-  mid: "uWBeeF60765697743692",
-  key: "%Qvy3FG7aRSCiJG2",
-  website: "WEBSTAGING"
+  mid: "YGeYiM87243410583723",
+  key: "TgBopY!yahcYiooC",
+  website: "WEBSTAGING",
 };
 
 var txn_url = "https://securegw-stage.paytm.in/order/process"; // for staging
@@ -590,12 +590,12 @@ app.post("/paymentReceipt", (req, res) => {
   if (result) {
     return res.send({
       status: 0,
-      data: responseData
+      data: responseData,
     });
   } else {
     return res.send({
       status: 1,
-      data: responseData
+      data: responseData,
     });
   }
 });
@@ -604,10 +604,10 @@ app.post("/wallet/credit", (REQ, RES) => {
   var req = JSON.parse(REQ.body.data);
   var bal;
   User.findAll({ where: { id: req.id }, raw: true })
-    .then(u => {
+    .then((u) => {
       bal = u[0].paytm_bal;
     })
-    .then(a => {
+    .then((a) => {
       User.update(
         {
           paytm_bal: parseInt(bal == null ? 0 : bal) + parseInt(req.amount),
@@ -615,14 +615,14 @@ app.post("/wallet/credit", (REQ, RES) => {
             "array_append",
             sequelize.col("paytm_orders"),
             req.order
-          )
+          ),
         },
         {
           where: {
-            id: req.id
-          }
+            id: req.id,
+          },
         }
-      ).then(u => {
+      ).then((u) => {
         RES.send({ message: "done" });
       });
     });
@@ -649,10 +649,10 @@ app.post("/wallet/credit", (REQ, RES) => {
 app.get("/get-all-credits/:id", (req, res) => {
   User.findAll({
     where: {
-      id: req.params.id
+      id: req.params.id,
     },
-    attributes: ["id", "coins", "paytm_bal", "wamount"]
-  }).then(r => {
+    attributes: ["id", "coins", "paytm_bal", "wamount"],
+  }).then((r) => {
     res.send(r);
   });
 });
@@ -660,10 +660,10 @@ app.post("/save-address", (REQ, RES) => {
   var req = JSON.parse(REQ.body.data);
   User.update(
     {
-      address: req.address
+      address: req.address,
     },
     { where: { id: req.id } }
-  ).then(u => {
+  ).then((u) => {
     RES.sendStatus(200);
   });
 });
@@ -671,14 +671,14 @@ app.post("/save-shirt-size", (REQ, RES) => {
   var req = JSON.parse(REQ.body.data);
   User.update(
     {
-      TshirtSize: req.size
+      TshirtSize: req.size,
     },
     { where: { id: req.id } }
-  ).then(u => {
+  ).then((u) => {
     RES.sendStatus(200);
   });
 });
 app.listen("2643");
 db.authenticate()
   .then(() => console.log("[Database Connected]"))
-  .catch(err => console.log("Error: " + err));
+  .catch((err) => console.log("Error: " + err));
