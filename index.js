@@ -521,8 +521,8 @@ app.get("/otp/:phone", (REQ, RES) => {
 });
 //PAYTM CONFIGURATION
 var PaytmConfig = {
-  mid: "YGeYiM87243410583723",
-  key: "TgBopY!yahcYiooC",
+  mid: "uWBeeF60765697743692",
+  key: "%Qvy3FG7aRSCiJG2",
   website: "WEBSTAGING",
 };
 
